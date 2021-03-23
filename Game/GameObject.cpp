@@ -37,7 +37,7 @@ sf::Color GameObject::GetColor() const
 	return color;
 }
 
-sf::Texture GameObject::GetTexture() const
+sf::Texture* GameObject::GetTexture() const
 {
 	return texture;
 }
@@ -59,6 +59,7 @@ void GameObject::SetColor(const sf::Color& color)
 
 void GameObject::Update(float deltaTime)
 {
+	
 }
 
 void GameObject::Draw(sf::RenderWindow* renderer) const
@@ -76,17 +77,16 @@ bool GameObject::IntersectsTop(const sf::Rect<float>& rect) const
 
 }
 
-bool GameObject::IntersectsBottom(const sf::Rect<float> rect) const
+bool GameObject::IntersectsBottom(const sf::Rect<float>& rect) const
 {
 	
 }
 
-bool GameObject::IntersectsLeft(const sf::Rect<float> rect) const
+bool GameObject::IntersectsLeft(const sf::Rect<float>& rect) const
 {
-
 	
 }
 
-bool GameObject::IntersectsRight(const sf::Rect<float> rect) const
+bool GameObject::IntersectsRight(const sf::Rect<float>& rect) const
 {
 }

@@ -15,7 +15,7 @@ public:
 	sf::Vector2f GetOrigin() const;
 	sf::Vector2f GetScale() const;
 	sf::Color GetColor() const;
-	sf::Texture GetTexture() const;
+	sf::Texture* GetTexture() const;
 	
 	void SetPosition(const sf::Vector2f& pos);
 	void SetRotation(const float rotation);
@@ -29,11 +29,11 @@ public:
 
 	bool IntersectsTop(const sf::Rect<float>& rect) const;
 
-	bool IntersectsBottom(const sf::Rect<float> rect) const;
+	bool IntersectsBottom(const sf::Rect<float>& rect) const;
 
-	bool IntersectsLeft(const sf::Rect<float> rect) const;
+	bool IntersectsLeft(const sf::Rect<float>& rect) const;
 
-	bool IntersectsRight(const sf::Rect<float> rect) const;
+	bool IntersectsRight(const sf::Rect<float>& rect) const;
 protected:
 	sf::Vector2f position;
 	sf::Vector2f direction;
