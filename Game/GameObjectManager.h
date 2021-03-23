@@ -6,9 +6,9 @@
 class GameObjectManager
 {
 public:
-	GameObjectManager(sf::RenderWindow& renderer)
+	GameObjectManager(sf::RenderWindow* renderer)
 	{
-		this->renderer = std::make_shared<sf::RenderWindow>(renderer);
+		this->renderer = renderer;
 	};
 	~GameObjectManager() = default;
 public:
@@ -16,7 +16,7 @@ public:
 	{
 		for (const auto& object : gameObjects)
 		{
-			object->Draw(renderer.get());
+			object->Draw(renderer);
 		}
 	}
 	void UpdateAll()
@@ -31,7 +31,7 @@ public:
 		gameObjects.push_back(std::make_unique<GameObject>(*obj));
 	}
 private:
-	std::shared_ptr<sf::RenderWindow> renderer;
+	sf::RenderWindow* renderer;
 	std::vector<std::unique_ptr<GameObject>> gameObjects;
 	Timer timer;
 };

@@ -3,14 +3,13 @@
 class Player final : public GameObject
 {
 public:
-	Player(const sf::Texture& texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
+	Player(const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
 		const sf::Vector2f& scale = sf::Vector2f(1,1))
 		: GameObject(texture, pos, rotation, color, scale)
 	{
 	}
-	~Player() = default;
 	void Update(float deltaTime) override;
 	void Draw(sf::RenderWindow* const renderer) const override;
 private:
-	sf::Vector2f velocity;
+	sf::Vector2f velocity = sf::Vector2f(100,100);
 };

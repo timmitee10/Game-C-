@@ -14,5 +14,5 @@ void Player::Update(float deltaTime)
 
 void Player::Draw(sf::RenderWindow* const renderer) const
 {
-
+	renderer->draw(this->sprite);
 }

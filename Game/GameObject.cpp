@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject(const sf::Texture& texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
+GameObject::GameObject(const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
                        const sf::Vector2f& scale):
 	position(pos), origin(pos.x / 2, pos.y / 2), scale(scale), rotation(rotation), texture(texture)
 {
@@ -61,7 +61,12 @@ void GameObject::Update(float deltaTime)
 {
 }
 
-void GameObject::Draw(sf::RenderWindow* const renderer) const
+void GameObject::Draw(sf::RenderWindow* renderer) const
 {
 	renderer->draw(sprite);
+}
+
+bool GameObject::Intersects(const sf::Rect<float>& rect) const
+{
+	return this->hitBox.intersects(rect);
 }

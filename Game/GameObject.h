@@ -2,13 +2,13 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
 
-class GameObject
+class GameObject 
 {
 public:
-	GameObject(const sf::Texture& texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
+	GameObject(const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
 	           const sf::Vector2f& scale = sf::Vector2f(1, 1));
 
-	virtual ~GameObject();
+	virtual ~GameObject() {};
 public:
 	sf::Vector2f GetPos() const;
 	float GetRotation() const;
@@ -24,6 +24,8 @@ public:
 	virtual void Update(float deltaTime);
 
 	virtual void Draw(sf::RenderWindow* const renderer) const;
+
+	bool Intersects(const sf::Rect<float>& rect) const;
 protected:
 	sf::Vector2f position;
 	sf::Vector2f direction;
@@ -31,7 +33,7 @@ protected:
 	sf::Vector2f scale;
 	sf::Color color;
 	float rotation;
-	sf::Texture texture;
-private:
+	const sf::Texture* texture;
 	sf::Sprite sprite;
+	sf::Rect<float> hitBox;
 };

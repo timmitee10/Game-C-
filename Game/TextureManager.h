@@ -1,28 +1,29 @@
 #pragma once
-#include <map>
-#include <memory>
 #include <string>
-#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Texture.hpp>
+#include <map>
 /*
  * Loads in texture from files and stores them in a map
  */
 class TextureManager
 {
 public:
-	static bool Load(const std::string& filename, const sf::IntRect& area = sf::IntRect())
+	inline static bool Load(const std::string& filename, const sf::IntRect& area = sf::IntRect())
 	{
 		auto* texture = new sf::Texture();
-		auto res = texture->loadFromFile(filename, area);
+		const auto res = texture->loadFromFile(filename, area);
 		if (!res)
 			return false;
-		textureMap.insert({filename,std::make_unique<sf::Texture>(*texture)});
+		textureMap.insert({ filename,texture });
+		return true;
 	}
 
-	static const sf::Texture& Get(const std::string& name)
+	inline 	static const sf::Texture* Get(const std::string& name)
 	{
-		return *textureMap.at(name).get();
+		return textureMap.at(name);
 	}
-	
-	static std::map<std::string, std::unique_ptr<sf::Texture>> textureMap;
+
+	static std::map<std::string, sf::Texture*> textureMap;
 };
+
+std::map<std::string, sf::Texture*> TextureManager::textureMap;
