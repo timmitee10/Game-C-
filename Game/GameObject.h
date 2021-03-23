@@ -1,6 +1,17 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <math.h>
+#define PI 3.14159265358979323846 
+inline float RadToDeg(float radians)
+{
+	return (radians * 180) / PI;
+}
+
+inline float DegToRad(float degrees)
+{
+	return (degrees * PI) / 180;
+}
 
 class GameObject 
 {

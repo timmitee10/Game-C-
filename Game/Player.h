@@ -11,5 +11,5 @@ public:
 	void Update(float deltaTime) override;
 	void Draw(sf::RenderWindow* const renderer) const override;
 private:
-	sf::Vector2f velocity = sf::Vector2f(100,100);
+	float velocity = 10000000.f;
 };

@@ -11,7 +11,7 @@ public:
 	inline static bool Load(const std::string& filename, const sf::IntRect& area = sf::IntRect())
 	{
 		auto* texture = new sf::Texture();
-		auto path = folder + filename;
+		const auto path = folder + filename;
 		const auto res = texture->loadFromFile(path, area);
 		if (!res)
 			return false;

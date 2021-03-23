@@ -26,9 +26,11 @@ public:
 			object->get()->Update(timer.ElapsedSeconds());
 		}
 	}
-	void Append(const GameObject* obj)
+
+	template<typename T>
+	void Append(const T* obj)
 	{
-		gameObjects.push_back(std::make_unique<GameObject>(*obj));
+		gameObjects.push_back(std::make_unique<T>(*obj));
 	}
 private:
 	sf::RenderWindow* renderer;

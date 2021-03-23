@@ -7,14 +7,12 @@
 int main()
 {
 	auto videoMode = sf::VideoMode::getFullscreenModes();
-
 	sf::RenderWindow window(videoMode[0], "SFML works!");
 	sf::CircleShape shape(100.f);
 	GameObjectManager manager(&window);
 	shape.setFillColor(sf::Color::Green);
-	if(!TextureManager::Load("black-box.jpg")) throw std::exception("Faild to load file");
-	manager.Append(new Player(TextureManager::Get("black-box.jpg"), sf::Vector2f(10, 10), 0, sf::Color::Blue, sf::Vector2f(0.2, 0.2)));
-
+	if (!TextureManager::Load("box.jpg")) throw std::exception("Faild to load file");
+	manager.Append<Player>(new Player(TextureManager::Get("box.jpg"), sf::Vector2f(10, 10), 0, sf::Color::White, sf::Vector2f(0.2, 0.2)));
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -23,10 +21,9 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
-
 		manager.UpdateAll();
 		window.clear();
-		window.draw(shape);
+		//window.draw(shape);
 		manager.DrawAll();
 		window.display();
 	}

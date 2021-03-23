@@ -2,14 +2,16 @@
 
 void Player::Update(float deltaTime)
 {
+	GameObject::Update(deltaTime);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		this->position += velocity * deltaTime;
+		this->rotation = 180;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		this->position += velocity * deltaTime;
+		this->rotation = 280;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		this->position += velocity * deltaTime;
+		this->rotation = 90;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		this->position += velocity * deltaTime;
+		this->rotation = 180;
+	this->position += (direction * velocity * deltaTime);
 }
 
 void Player::Draw(sf::RenderWindow* const renderer) const
