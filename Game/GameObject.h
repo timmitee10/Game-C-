@@ -15,7 +15,7 @@ public:
 	sf::Vector2f GetOrigin() const;
 	sf::Vector2f GetScale() const;
 	sf::Color GetColor() const;
-	sf::Texture* GetTexture() const;
+	const sf::Texture* GetTexture() const;
 	
 	void SetPosition(const sf::Vector2f& pos);
 	void SetRotation(const float rotation);

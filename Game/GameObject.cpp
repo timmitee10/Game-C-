@@ -7,7 +7,7 @@ GameObject::GameObject(const sf::Texture* texture, const sf::Vector2f& pos, floa
 	sprite.setPosition(this->position);
 	sprite.setOrigin(this->origin);
 	sprite.setRotation(this->rotation);
-	sprite.setTexture(this->texture);
+	sprite.setTexture(*this->texture);
 	sprite.setScale(this->scale);
 	sprite.setColor(this->color);
 }
@@ -37,7 +37,7 @@ sf::Color GameObject::GetColor() const
 	return color;
 }
 
-sf::Texture* GameObject::GetTexture() const
+const sf::Texture* GameObject::GetTexture() const
 {
 	return texture;
 }
@@ -74,19 +74,20 @@ bool GameObject::Intersects(const sf::Rect<float>& rect) const
 
 bool GameObject::IntersectsTop(const sf::Rect<float>& rect) const
 {
-
+	return false;
 }
 
 bool GameObject::IntersectsBottom(const sf::Rect<float>& rect) const
 {
-	
+	return false;
 }
 
 bool GameObject::IntersectsLeft(const sf::Rect<float>& rect) const
 {
-	
+	return false;
 }
 
 bool GameObject::IntersectsRight(const sf::Rect<float>& rect) const
 {
+	return false;
 }

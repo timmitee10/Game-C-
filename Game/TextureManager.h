@@ -11,7 +11,8 @@ public:
 	inline static bool Load(const std::string& filename, const sf::IntRect& area = sf::IntRect())
 	{
 		auto* texture = new sf::Texture();
-		const auto res = texture->loadFromFile(filename, area);
+		auto path = folder + filename;
+		const auto res = texture->loadFromFile(path, area);
 		if (!res)
 			return false;
 		textureMap.insert({ filename,texture });
@@ -24,6 +25,9 @@ public:
 	}
 
 	static std::map<std::string, sf::Texture*> textureMap;
+private:
+	static std::string folder;
 };
 
 std::map<std::string, sf::Texture*> TextureManager::textureMap;
+std::string TextureManager::folder = "Content/";
