@@ -1,3 +1,4 @@
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include "GameObjectManager.h"
 #include "Player.h"
@@ -5,12 +6,14 @@
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+	auto videoMode = sf::VideoMode::getFullscreenModes();
+
+	sf::RenderWindow window(videoMode[0], "SFML works!");
 	sf::CircleShape shape(100.f);
 	GameObjectManager manager(&window);
 	shape.setFillColor(sf::Color::Green);
 	if(!TextureManager::Load("black-box.jpg")) throw std::exception("Faild to load file");
-	manager.Append(new Player(TextureManager::Get("black-box.jpg"), sf::Vector2f(10, 10), 0, sf::Color::Blue, sf::Vector2f(1, 1)));
+	manager.Append(new Player(TextureManager::Get("black-box.jpg"), sf::Vector2f(10, 10), 0, sf::Color::Blue, sf::Vector2f(0.2, 0.2)));
 
 	while (window.isOpen())
 	{
