@@ -1,0 +1,67 @@
+#include "GameObject.h"
+
+GameObject::GameObject(const sf::Texture& texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
+                       const sf::Vector2f& scale):
+	position(pos), origin(pos.x / 2, pos.y / 2), scale(scale), rotation(rotation), texture(texture)
+{
+	sprite.setPosition(this->position);
+	sprite.setOrigin(this->origin);
+	sprite.setRotation(this->rotation);
+	sprite.setTexture(this->texture);
+	sprite.setScale(this->scale);
+	sprite.setColor(this->color);
+}
+
+sf::Vector2f GameObject::GetPos() const
+{
+	return position;
+}
+
+float GameObject::GetRotation() const
+{
+	return rotation;
+}
+
+sf::Vector2f GameObject::GetOrigin() const
+{
+	return origin;
+}
+
+sf::Vector2f GameObject::GetScale() const
+{
+	return scale;
+}
+
+sf::Color GameObject::GetColor() const
+{
+	return color;
+}
+
+sf::Texture GameObject::GetTexture() const
+{
+	return texture;
+}
+
+void GameObject::SetPosition(const sf::Vector2f& pos)
+{
+	this->position = pos;
+}
+
+void GameObject::SetRotation(const float rotation)
+{
+	this->rotation = rotation;
+}
+
+void GameObject::SetColor(const sf::Color& color)
+{
+	this->color = color;
+}
+
+void GameObject::Update(float deltaTime)
+{
+}
+
+void GameObject::Draw(sf::RenderWindow* const renderer) const
+{
+	renderer->draw(sprite);
+}
