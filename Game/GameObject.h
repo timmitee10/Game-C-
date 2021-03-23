@@ -26,6 +26,14 @@ public:
 	virtual void Draw(sf::RenderWindow* const renderer) const;
 
 	bool Intersects(const sf::Rect<float>& rect) const;
+
+	bool IntersectsTop(const sf::Rect<float>& rect) const;
+
+	bool IntersectsBottom(const sf::Rect<float> rect) const;
+
+	bool IntersectsLeft(const sf::Rect<float> rect) const;
+
+	bool IntersectsRight(const sf::Rect<float> rect) const;
 protected:
 	sf::Vector2f position;
 	sf::Vector2f direction;

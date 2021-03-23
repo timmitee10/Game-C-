@@ -70,3 +70,23 @@ bool GameObject::Intersects(const sf::Rect<float>& rect) const
 {
 	return this->hitBox.intersects(rect);
 }
+
+bool GameObject::IntersectsTop(const sf::Rect<float>& rect) const
+{
+
+}
+
+bool GameObject::IntersectsBottom(const sf::Rect<float> rect) const
+{
+	
+}
+
+bool GameObject::IntersectsLeft(const sf::Rect<float> rect) const
+{
+
+	
+}
+
+bool GameObject::IntersectsRight(const sf::Rect<float> rect) const
+{
+}
