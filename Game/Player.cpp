@@ -12,6 +12,7 @@ void Player::Update(float deltaTime)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		this->rotation = 180;
 	this->position += (direction * velocity * deltaTime);
+	this->sprite.setPosition(position);
 }
 
 void Player::Draw(sf::RenderWindow* const renderer) const

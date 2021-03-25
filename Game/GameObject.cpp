@@ -59,7 +59,8 @@ void GameObject::SetColor(const sf::Color& color)
 
 void GameObject::Update(float deltaTime)
 {
-	direction = sf::Vector2f(std::cos(DegToRad(90) - rotation), -std::sin(DegToRad(90) - rotation));
+	//TODO fix direction calculation
+	direction = sf::Vector2f(std::cos(DegToRad(90) - DegToRad(rotation)), -std::sin(DegToRad(90) - DegToRad(rotation)));
 }
 
 void GameObject::Draw(sf::RenderWindow* renderer) const

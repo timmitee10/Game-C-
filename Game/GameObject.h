@@ -18,7 +18,6 @@ class GameObject
 public:
 	GameObject(const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
 	           const sf::Vector2f& scale = sf::Vector2f(1, 1));
-
 	virtual ~GameObject() {};
 public:
 	sf::Vector2f GetPos() const;
@@ -45,9 +44,10 @@ public:
 	bool IntersectsLeft(const sf::Rect<float>& rect) const;
 
 	bool IntersectsRight(const sf::Rect<float>& rect) const;
+
 protected:
 	sf::Vector2f position;
-	sf::Vector2f direction;
+	sf::Vector2f direction = sf::Vector2f(0,0);
 	sf::Vector2f origin;
 	sf::Vector2f scale;
 	sf::Color color;

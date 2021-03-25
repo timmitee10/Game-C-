@@ -23,7 +23,7 @@ public:
 	{
 		for (auto object = gameObjects.rbegin(); object != gameObjects.rend(); ++object)
 		{
-			object->get()->Update(timer.ElapsedSeconds());
+			object->get()->Update(timer.ElapsedMilliseconds());
 		}
 	}
 

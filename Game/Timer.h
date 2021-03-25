@@ -12,15 +12,14 @@ public:
 	void Reset()
 	{
 		start = std::chrono::steady_clock::now();
-
 	}
-	float ElapsedMilliseconds()
+	long long ElapsedMilliseconds()
 	{
 		const auto temp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<float>(std::chrono::steady_clock::now() - start)).count();
 		Reset();
 		return temp;
 	}
-	float ElapsedSeconds()
+	long long ElapsedSeconds()
 	{
 		const auto temp = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::duration<float>(std::chrono::steady_clock::now() - start)).count();
 		Reset();

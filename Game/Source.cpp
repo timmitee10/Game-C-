@@ -11,8 +11,8 @@ int main()
 	sf::CircleShape shape(100.f);
 	GameObjectManager manager(&window);
 	shape.setFillColor(sf::Color::Green);
-	if (!TextureManager::Load("box.jpg")) throw std::exception("Faild to load file");
-	manager.Append<Player>(new Player(TextureManager::Get("box.jpg"), sf::Vector2f(10, 10), 0, sf::Color::White, sf::Vector2f(0.2, 0.2)));
+	if (!TextureManager::Load("bird.jpg")) throw std::exception("Faild to load file");
+	manager.Append<Player>(new Player(TextureManager::Get("bird.jpg"), sf::Vector2f(0, 0), 0, sf::Color::White, sf::Vector2f(0.2, 0.2)));
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -23,7 +23,7 @@ int main()
 		}
 		manager.UpdateAll();
 		window.clear();
-		//window.draw(shape);
+		window.draw(shape);
 		manager.DrawAll();
 		window.display();
 	}
