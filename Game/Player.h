@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Inventory.h"
 class Player final : public GameObject
 {
 public:
@@ -10,6 +11,7 @@ public:
 	}
 	void Update(float deltaTime) override;
 	void Draw(sf::RenderWindow* const renderer) const override;
+
 private:
 	float velocity = 10000000.f;
 };
