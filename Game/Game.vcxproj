@@ -156,12 +156,23 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bandage.h" />
+    <ClInclude Include="Bar.h" />
+    <ClInclude Include="Bot.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Create.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Pistol.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Rifle.h" />
+    <ClInclude Include="Stone.h" />
     <ClInclude Include="Target.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Tree.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
