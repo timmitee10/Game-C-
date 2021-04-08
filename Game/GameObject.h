@@ -3,6 +3,8 @@
 #include <SFML/System/Vector2.hpp>
 #include <math.h>
 #define PI 3.14159265358979323846 
+class GameObjectManager;
+
 inline float RadToDeg(float radians)
 {
 	return (radians * 180) / PI;
@@ -17,7 +19,7 @@ inline sf::Vector2f normalize(const sf::Vector2f& source)
 {
 	const float length = sqrt((source.x * source.x) + (source.y * source.y));
 	if (length != 0)
-		return {source.x / length, source.y / length};
+		return { source.x / length, source.y / length };
 	else
 		return source;
 }
@@ -34,6 +36,10 @@ class GameObject
 public:
 	GameObject(const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
 		const sf::Vector2f& scale = sf::Vector2f(1, 1));
+
+	GameObject(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
+		const sf::Vector2f& scale = sf::Vector2f(1, 1));
+	
 	virtual ~GameObject() {};
 public:
 	sf::Vector2f GetPos() const;
@@ -72,4 +78,5 @@ protected:
 	const sf::Texture* texture;
 	sf::Sprite sprite;
 	sf::Rect<float> hitBox;
+	GameObjectManager* objectManager;
 };

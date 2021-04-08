@@ -11,7 +11,11 @@ GameObject::GameObject(const sf::Texture* texture, const sf::Vector2f& pos, floa
 	sprite.setScale(this->scale);
 	sprite.setColor(this->color);
 }
-
+GameObject::GameObject(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
+	const sf::Vector2f& scale) : GameObject(texture, pos,rotation,color,scale)
+{
+	
+}
 sf::Vector2f GameObject::GetPos() const
 {
 	return position;

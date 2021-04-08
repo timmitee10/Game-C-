@@ -32,6 +32,11 @@ public:
 	{
 		gameObjects.push_back(std::make_unique<T>(*obj));
 	}
+
+	const std::vector<std::unique_ptr<GameObject>>* GetVector()
+	{
+		return &gameObjects;
+	}
 private:
 	sf::RenderWindow* renderer;
 	std::vector<std::unique_ptr<GameObject>> gameObjects;

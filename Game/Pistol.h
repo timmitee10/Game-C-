@@ -1,11 +1,11 @@
 #pragma once
 #include "Weapon.h"
 
-class Pistol : Weapon
+class Pistol : Weapon<Bullet>
 {
 public:
 	Pistol();
-	~Pistol();
+	virtual ~Pistol();
 private:
 	
 };
