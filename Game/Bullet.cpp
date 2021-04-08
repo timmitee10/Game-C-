@@ -10,8 +10,7 @@ inline void Bullet::Update(float deltaTime)
 			auto* p = dynamic_cast<Character*>(a.get());
 			if (p)
 			{
-				//auto* b = reinterpret_cast<Character*>(a.get());
-				float tempNewHealth = p->GetHealth() - damage;
+				const float tempNewHealth = p->GetHealth() - damage;
 				p->SetHealth(tempNewHealth);
 			}
 			else

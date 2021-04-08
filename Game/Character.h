@@ -25,7 +25,7 @@ public:
 
 	bool operator==(const GameObject& lhs) const override
 	{
-		return *this == dynamic_cast<const GameObject&>(lhs);
+		return *this == dynamic_cast<const Character&>(lhs);
 	}
 
 	bool operator!=(const GameObject& lhs) const override
