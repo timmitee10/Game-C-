@@ -4,15 +4,15 @@
 class Character : public GameObject
 {
 public:
-	Character(float health, float velocity, Inventory& inventory,const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
-		const sf::Vector2f& scale = sf::Vector2f(1, 1)) : GameObject(texture, pos, rotation, color, scale), inventory(this)
+	Character(float health, float velocity,const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
+		const sf::Vector2f& scale = sf::Vector2f(1, 1)) : GameObject(texture, pos, rotation, scale), inventory(this)
 	{
 		this->health = health;
 		this->velocity = velocity;
 		this->inventory = inventory;
 	}
-	Character(float health, float velocity, Inventory& inventory,GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
-		const sf::Vector2f& scale = sf::Vector2f(1, 1)) : GameObject(gameObjects, texture, pos, rotation, color, scale) , inventory(this)
+	Character(float health, float velocity,GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
+		const sf::Vector2f& scale = sf::Vector2f(1, 1)) : GameObject(gameObjects, texture, pos, rotation, scale) , inventory(this)
 	{
 		this->health = health;
 		this->velocity = velocity;

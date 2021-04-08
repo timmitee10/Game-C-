@@ -35,10 +35,10 @@ inline sf::Vector2f FindDirection(const sf::Vector2f& source, const sf::Vector2f
 class GameObject
 {
 public:
-	GameObject(const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
+	GameObject(const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
 		const sf::Vector2f& scale = sf::Vector2f(1, 1));
 
-	GameObject(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
+	GameObject(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
 		const sf::Vector2f& scale = sf::Vector2f(1, 1));
 
 	virtual ~GameObject() {}

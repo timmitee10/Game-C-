@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject(const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
+GameObject::GameObject(const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
 	const sf::Vector2f& scale) :
 	position(pos), origin(pos.x / 2, pos.y / 2), scale(scale), rotation(rotation), texture(texture)
 {
@@ -9,12 +9,12 @@ GameObject::GameObject(const sf::Texture* texture, const sf::Vector2f& pos, floa
 	sprite.setRotation(this->rotation);
 	sprite.setTexture(*this->texture);
 	sprite.setScale(this->scale);
-	sprite.setColor(this->color);
+	//sprite.setColor(this->color);
 }
-GameObject::GameObject(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
-	const sf::Vector2f& scale) : GameObject(texture, pos,rotation,color,scale)
+GameObject::GameObject(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
+	const sf::Vector2f& scale) : GameObject(texture, pos, rotation, scale)
 {
-	
+
 }
 sf::Vector2f GameObject::GetPos() const
 {

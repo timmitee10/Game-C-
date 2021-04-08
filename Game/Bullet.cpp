@@ -1,6 +1,6 @@
 #include "Bullet.h"
 #include "Character.h"
-inline void Bullet::Update(float deltaTime)
+void Bullet::Update(float deltaTime)
 {
 	std::vector<std::unique_ptr<GameObject>>* temp = gameObjectManager->GetVector();
 	for (auto& a : *temp)

@@ -9,10 +9,10 @@ template<typename TBullet>
 class Weapon
 {
 public:
-	Weapon(GameObjectManager* objectManager, Character* owner, float reloadTime, float fireDelay, float totalMagazineCapacity) :
-		objectManager(objectManager), owner(owner), reloadTime(reloadTime), fireDelay(fireDelay), totalMagazineCapacity(totalMagazineCapacity) {};
+	Weapon(sf::Texture* texture, GameObjectManager* objectManager, Character* owner, float reloadTime, float fireDelay, float totalMagazineCapacity) :
+		texture(texture), objectManager(objectManager), owner(owner), reloadTime(reloadTime), fireDelay(fireDelay), totalMagazineCapacity(totalMagazineCapacity) {};
 	virtual ~Weapon() = default;
-	
+
 	void Reload()
 	{
 		if (!isReloading)
@@ -21,7 +21,7 @@ public:
 			isReloading = true;
 		}
 	}
-	
+
 	void FillWeapon()
 	{
 		if (owner->GetInventory().bulletCount >= totalMagazineCapacity)
@@ -41,7 +41,7 @@ public:
 		{
 			if (shootTimer.ElapsedMilliseconds() > fireDelay)
 			{
-				TBullet tempBullet(owner, 10.f,10.f, objectManager, TextureManager::Get("Bullet"), owner->GetPos(), owner->GetRotation(), sf::Color::White);
+				TBullet tempBullet(owner, 10.f, 10.f, objectManager, TextureManager::Get("Bullet"), owner->GetPos(), owner->GetRotation());
 				tempBullet.SetPosition(owner->GetPos());
 				tempBullet.SetRotation(owner->GetRotation());
 				objectManager->Append<GameObject>(static_cast<const GameObject*>(&tempBullet));
@@ -50,7 +50,7 @@ public:
 			}
 		}
 	}
-	virtual void Update()
+	void Update()
 	{
 		if (isReloading)
 		{
@@ -65,7 +65,14 @@ public:
 			}
 		}
 	}
+	void Draw()
+	{
+		
+	}
 protected:
+	sf::Texture* equipedTexture;
+	sf::Texture* objectTexture;
+	sf::Texture* texture;
 	unsigned int totalMagazineCapacity;
 	unsigned int magazineBulletCount = 0;
 	float reloadTime;
