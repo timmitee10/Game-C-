@@ -29,5 +29,5 @@ private:
 	static std::string folder;
 };
 
-std::map<std::string, sf::Texture*> TextureManager::textureMap;
-std::string TextureManager::folder = "Content/";
+inline std::map<std::string, sf::Texture*> TextureManager::textureMap;
+inline std::string TextureManager::folder = "Content/";

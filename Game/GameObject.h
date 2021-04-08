@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <math.h>
+
 #define PI 3.14159265358979323846 
 class GameObjectManager;
 
@@ -39,16 +40,17 @@ public:
 
 	GameObject(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Color& color,
 		const sf::Vector2f& scale = sf::Vector2f(1, 1));
-	
-	virtual ~GameObject() {};
+
+	virtual ~GameObject() {}
 public:
 	sf::Vector2f GetPos() const;
 	float GetRotation() const;
 	sf::Vector2f GetOrigin() const;
 	sf::Vector2f GetScale() const;
 	sf::Color GetColor() const;
+	const sf::Rect<float>& GetRect() const;
 	const sf::Texture* GetTexture() const;
-
+	bool IsRemoved() const { return isRemoved; }
 	void SetPosition(const sf::Vector2f& pos);
 	void SetRotation(const float rotation);
 	void SetColor(const sf::Color& color);
@@ -67,6 +69,17 @@ public:
 
 	bool IntersectsRight(const sf::Rect<float>& rect) const;
 
+
+	virtual bool operator==(const GameObject& lhs) const
+	{
+		return *this == lhs;
+	};
+
+	virtual bool operator!=(const GameObject& lhs) const
+	{
+		return !(this->operator==(lhs));
+	};
+
 protected:
 	sf::Vector2f position;
 	sf::Vector2f direction = sf::Vector2f(0, 0);
@@ -79,4 +92,5 @@ protected:
 	sf::Sprite sprite;
 	sf::Rect<float> hitBox;
 	GameObjectManager* objectManager;
+	bool isRemoved = false;
 };

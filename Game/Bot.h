@@ -1,7 +1,7 @@
 #pragma once
-#include "GameObject.h"
+#include "Character.h"
 
-class Bot : GameObject
+class Bot : Character
 {
 	Bot();
 	~Bot();

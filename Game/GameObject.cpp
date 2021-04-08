@@ -41,6 +41,11 @@ sf::Color GameObject::GetColor() const
 	return color;
 }
 
+const sf::Rect<float>& GameObject::GetRect() const
+{
+	return this->hitBox;
+}
+
 const sf::Texture* GameObject::GetTexture() const
 {
 	return texture;

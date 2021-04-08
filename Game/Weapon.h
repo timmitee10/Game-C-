@@ -1,15 +1,18 @@
 #pragma once
-#include "Character.h"
 #include "GameObjectManager.h"
-#include "Bullet.h"
-#include "Inventory.h"
+#include "TextureManager.h"
+#include "Timer.h"
+
+class Character;
 
 template<typename TBullet>
 class Weapon
 {
 public:
-	Weapon(GameObjectManager* objectManager);
-	virtual ~Weapon();
+	Weapon(GameObjectManager* objectManager, Character* owner, float reloadTime, float fireDelay, float totalMagazineCapacity) :
+		objectManager(objectManager), owner(owner), reloadTime(reloadTime), fireDelay(fireDelay), totalMagazineCapacity(totalMagazineCapacity) {};
+	virtual ~Weapon() = default;
+	
 	void Reload()
 	{
 		if (!isReloading)
@@ -18,6 +21,7 @@ public:
 			isReloading = true;
 		}
 	}
+	
 	void FillWeapon()
 	{
 		if (owner->GetInventory().bulletCount >= totalMagazineCapacity)
@@ -35,14 +39,18 @@ public:
 	{
 		if (!isReloading)
 		{
-			TBullet tempBullet;
-			tempBullet.SetPos(owner->GetPos());
-			tempBullet.SetRotation(owner->GetRotation());
-			objectManager->Append(tempBullet());
-			magazineBulletCount--;
+			if (shootTimer.ElapsedMilliseconds() > fireDelay)
+			{
+				TBullet tempBullet(owner, 10.f,10.f, objectManager, TextureManager::Get("Bullet"), owner->GetPos(), owner->GetRotation(), sf::Color::White);
+				tempBullet.SetPosition(owner->GetPos());
+				tempBullet.SetRotation(owner->GetRotation());
+				objectManager->Append<GameObject>(static_cast<const GameObject*>(&tempBullet));
+				magazineBulletCount--;
+				shootTimer.Reset();
+			}
 		}
 	}
-	void Update()
+	virtual void Update()
 	{
 		if (isReloading)
 		{
@@ -57,14 +65,14 @@ public:
 			}
 		}
 	}
-private:
+protected:
 	unsigned int totalMagazineCapacity;
-	unsigned int magazineBulletCount;
+	unsigned int magazineBulletCount = 0;
 	float reloadTime;
 	float fireDelay;
 	GameObjectManager* objectManager;
 	Character* owner;
 	Timer reloadTimer;
 	Timer shootTimer;
-	bool isReloading;
+	bool isReloading = false;
 };

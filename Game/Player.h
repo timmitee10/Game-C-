@@ -12,7 +12,10 @@ public:
 		const sf::Vector2f& scale = sf::Vector2f(1, 1)) : Character(health, velocity, inventory, gameObjects, texture, pos, rotation, color, scale)
 	{
 	}
+	virtual ~Player() {}
 	void Update(float deltaTime) override;
 	void Draw(sf::RenderWindow* const renderer) const override;
 private:
+
+
 };

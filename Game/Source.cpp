@@ -12,7 +12,7 @@ int main()
 	GameObjectManager manager(&window);
 	shape.setFillColor(sf::Color::Green);
 	if (!TextureManager::Load("bird.jpg")) throw std::exception("Faild to load file");
-	manager.Append<Player>(new Player(TextureManager::Get("bird.jpg"), sf::Vector2f(0, 0), 0, sf::Color::White, sf::Vector2f(0.2, 0.2)));
+	//manager.Append<Player>(new Player(TextureManager::Get("bird.jpg"), sf::Vector2f(0, 0), 0, sf::Color::White, sf::Vector2f(0.2, 0.2)));
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -27,6 +27,5 @@ int main()
 		manager.DrawAll();
 		window.display();
 	}
-
 	return 0;
 }
