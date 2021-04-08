@@ -3,15 +3,28 @@
 void Player::Update(float deltaTime)
 {
 	GameObject::Update(deltaTime);
+	this->velocity = 0;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		this->rotation = 180;
+	{
+		this->velocity = 1;
+		this->rotation = 360;
+	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		this->rotation = 280;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		this->velocity = 1;
 		this->rotation = 90;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		this->velocity = 1;
+		this->rotation = 180 + 90;
+	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		this->velocity = 1;
 		this->rotation = 180;
-	this->position += (direction * velocity * deltaTime);
+	}
+	this->position += (direction * velocity * deltaTime * 0.0000001f);
 	this->sprite.setPosition(position);
 }
 

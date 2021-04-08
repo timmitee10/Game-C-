@@ -26,6 +26,13 @@ public:
 		return temp;
 	}
 
+	long long ElapsedNanoseconds()
+	{
+		const auto temp = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::duration<float>(std::chrono::steady_clock::now() - start)).count();
+		Reset();
+		return temp;
+	}
+
 	void Stop()
 	{
 		end = std::chrono::steady_clock::now();
