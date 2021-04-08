@@ -1,14 +1,19 @@
 #pragma once
 #include "GameObject.h"
+#include "Bullet.h"
+template<typename TBullet>
 class Weapon
 {
 public:
 	Weapon();
 	~Weapon();
 	void Reload();
-	virtual void Shot();
+	virtual void Shot()
+	{
+		TBullet(sf::Vector2f(0, 0));
+	}
 private:
-	unsigned int magazineCappacity;
+	unsigned int magazineCapacity;
 	unsigned int reloadTime;
-	GameObject* target;
+	GameObject* owner;
 };

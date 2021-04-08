@@ -1,11 +1,15 @@
 #pragma once
-class Bullet
+#include "GameObject.h"
+class Bullet : GameObject
 {
 public:
 	Bullet();
 	~Bullet();
-
-
-public:
-
+	void Update(float deltaTime) override
+	{
+		
+	}
+private:
+	float damage;
+	float speed;
 };
