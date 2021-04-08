@@ -9,27 +9,30 @@ class Weapon
 {
 public:
 	Weapon(GameObjectManager* objectManager);
-	~Weapon();
+	virtual ~Weapon();
 	void Reload()
 	{
 		if (!isReloading)
 		{
-			if (owner->GetInventory().bulletCount >= totalMagazineCapacity)
-			{
-				magazineBulletCount = totalMagazineCapacity;
-				owner->GetInventory().bulletCount -= totalMagazineCapacity;
-			}
-			else
-			{
-				magazineBulletCount = owner->GetInventory().bulletCount;
-				owner->GetInventory().bulletCount = 0;
-			}
+			reloadTimer.Reset();
+			isReloading = true;
+		}
+	}
+	void FillWeapon()
+	{
+		if (owner->GetInventory().bulletCount >= totalMagazineCapacity)
+		{
+			magazineBulletCount = totalMagazineCapacity;
+			owner->GetInventory().bulletCount -= totalMagazineCapacity;
+		}
+		else if (owner->GetInventory().bulletCount > 0)
+		{
+			magazineBulletCount = owner->GetInventory().bulletCount;
+			owner->GetInventory().bulletCount = 0;
 		}
 	}
 	virtual void Shoot()
 	{
-
-		
 		if (!isReloading)
 		{
 			TBullet tempBullet;
@@ -37,6 +40,21 @@ public:
 			tempBullet.SetRotation(owner->GetRotation());
 			objectManager->Append(tempBullet());
 			magazineBulletCount--;
+		}
+	}
+	void Update()
+	{
+		if (isReloading)
+		{
+			if (reloadTimer.ElapsedMilliseconds() < reloadTime)
+			{
+				return;
+			}
+			else //Is done reloading
+			{
+				isReloading = false;
+				FillWeapon();
+			}
 		}
 	}
 private:
