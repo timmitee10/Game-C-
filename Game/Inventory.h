@@ -13,6 +13,21 @@ enum class WeaponType
 	Pistol,
 	Rifle,
 };
+
+constexpr const char* ToString(WeaponType x)
+{
+	switch (x) {
+	case WeaponType::Pistol: return "Pistol";
+	case WeaponType::Rifle: return "Rifle";
+	default: return "Unknown";
+	}
+}
+
+//class WeaponContainer : std::vector<std::optional<Weapon>>
+//{
+//public:
+//	
+//};
 struct Inventory final
 {
 	using AWeapon = Weapon;
@@ -59,7 +74,7 @@ struct Inventory final
 			AWeapon* tempWeapon = &it->value();
 
 			gameObjectManager->Append<AWeapon>(tempWeapon);
-			
+
 			weapons.erase(it);
 		}
 	}

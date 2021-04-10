@@ -2,11 +2,13 @@
 #include "Bullet.h"
 #include "Weapon.h"
 
-class Rifle final : public Weapon<Bullet>
+class Rifle final : public Weapon
 {
 public:
-	Rifle(sf::Texture* texture, GameObjectManager* objectManager, Character* owner, WeaponDetails* details) : Weapon<Bullet>(texture, objectManager, owner, details)
-	{};
+	Rifle(sf::Texture* texture, GameObjectManager* objectManager, Character* owner, WeaponDetails* details) : Weapon(texture, objectManager, owner, details)
+	{
+		
+	};
 
 	~Rifle() = default;
 };

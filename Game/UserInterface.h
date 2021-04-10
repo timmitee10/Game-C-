@@ -1,14 +1,16 @@
 #pragma once
 #include "Player.h"
+#include "Bar.h"
 typedef GameObject UIElement;
 
 class UserInterface
 {
 public:
-	UserInterface(Inventory* inventory, const sf::Texture* uiRifle, const sf::Texture* uiPistol, const sf::Texture* uiBandage)
+	UserInterface(Character* target, const sf::Texture* uiRifle, const sf::Texture* uiPistol, const sf::Texture* uiBandage) :
+	target(target) , inventory(&target->GetInventory())
 	{
-		inventory->owner->GetHealth();
-		inventory->
+		target->GetHealth();
+		
 	}
 	~UserInterface()
 	{
@@ -17,10 +19,13 @@ public:
 	
 	void Draw(sf::RenderWindow* render)
 	{
+		healthBar.Draw(render);
 		
 	}
 public:
-	Inventory* inventory;
+	Bar healthBar;
+	Character* target;
+	Inventory* inventory; 
 	sf::Sprite* rifle;
 	sf::Sprite* pistol;
 	sf::Sprite* bandage;
