@@ -1,85 +1,68 @@
 #pragma once
+#include "Bullet.h"
+#include "Character.h"
+#include "Character.h"
 #include "GameObjectManager.h"
 #include "TextureManager.h"
 #include "Timer.h"
 
 class Character;
 
-template<typename TBullet>
+
+struct WeaponDetails
+{
+	float reloadTime;
+	float fireDelay;
+	unsigned int totalMagazineCapacity;
+	unsigned int magazineBulletCount = 0;
+
+	sf::Texture* equippedTexture;
+	sf::Texture* objectTexture;
+};
+
+
+/* Weapon in inventory */
 class Weapon
 {
 public:
-	Weapon(sf::Texture* texture, GameObjectManager* objectManager, Character* owner, float reloadTime, float fireDelay, float totalMagazineCapacity) :
-		texture(texture), objectManager(objectManager), owner(owner), reloadTime(reloadTime), fireDelay(fireDelay), totalMagazineCapacity(totalMagazineCapacity) {};
-	virtual ~Weapon() = default;
+	Weapon(const sf::Texture* texture, GameObjectManager* objectManager, Character* owner, WeaponDetails* details,
+	       Bullet* bullet);
+	~Weapon() = default;
 
-	void Reload()
-	{
-		if (!isReloading)
-		{
-			reloadTimer.Reset();
-			isReloading = true;
-		}
-	}
+	void Reload();
 
-	void FillWeapon()
+	void FillWeapon() const;
+
+	virtual void Shoot();
+
+	void Update();
+
+	void Draw(sf::RenderWindow* render) const
 	{
-		if (owner->GetInventory().bulletCount >= totalMagazineCapacity)
-		{
-			magazineBulletCount = totalMagazineCapacity;
-			owner->GetInventory().bulletCount -= totalMagazineCapacity;
-		}
-		else if (owner->GetInventory().bulletCount > 0)
-		{
-			magazineBulletCount = owner->GetInventory().bulletCount;
-			owner->GetInventory().bulletCount = 0;
-		}
-	}
-	virtual void Shoot()
-	{
-		if (!isReloading)
-		{
-			if (shootTimer.ElapsedMilliseconds() > fireDelay)
-			{
-				TBullet tempBullet(owner, 10.f, 10.f, objectManager, TextureManager::Get("Bullet"), owner->GetPos(), owner->GetRotation());
-				tempBullet.SetPosition(owner->GetPos());
-				tempBullet.SetRotation(owner->GetRotation());
-				objectManager->Append<GameObject>(static_cast<const GameObject*>(&tempBullet));
-				magazineBulletCount--;
-				shootTimer.Reset();
-			}
-		}
-	}
-	void Update()
-	{
-		if (isReloading)
-		{
-			if (reloadTimer.ElapsedMilliseconds() < reloadTime)
-			{
-				return;
-			}
-			else //Is done reloading
-			{
-				isReloading = false;
-				FillWeapon();
-			}
-		}
-	}
-	void Draw()
-	{
-		
+		render->draw(sprite);
 	}
 protected:
-	sf::Texture* equipedTexture;
-	sf::Texture* objectTexture;
-	sf::Texture* texture;
-	unsigned int totalMagazineCapacity;
-	unsigned int magazineBulletCount = 0;
-	float reloadTime;
-	float fireDelay;
+	sf::Sprite sprite;
+	WeaponDetails* details;
 	GameObjectManager* objectManager;
 	Character* owner;
 	Timer reloadTimer;
 	Timer shootTimer;
 	bool isReloading = false;
+	Bullet* bullet;
+	sf::Vector2f offset;
+};
+
+
+/* Weapon on ground able to be picked up */
+class WeaponObject : GameObject
+{
+public:
+	WeaponObject(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
+		WeaponDetails* details, const sf::Vector2f& scale = sf::Vector2f(1, 1)) : GameObject(gameObjects, texture, pos, rotation, scale), details(details)
+	{
+		
+	}
+protected:
+	WeaponDetails* details;
 };

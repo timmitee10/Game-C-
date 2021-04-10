@@ -1,5 +1,11 @@
 #include "Player.h"
 
+Player::Player(float health, float velocity, GameObjectManager* gameObjects, const sf::Texture* texture,
+               const sf::Vector2f& pos, float rotation, const sf::Vector2f& scale): Character(
+	health, velocity, gameObjects, texture, pos, rotation, scale)
+{
+}
+
 void Player::Update(float deltaTime)
 {
 
@@ -39,7 +45,8 @@ void Player::Update(float deltaTime)
 		this->position += (direction * velocity * deltaTime * 0.0000001f);
 		this->sprite.setPosition(position);
 	}
-
+	
+	
 	this->direction = FindDirection(this->position, sf::Vector2f(sf::Mouse::getPosition()));
 
 }

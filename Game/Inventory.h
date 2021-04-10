@@ -13,9 +13,9 @@ enum class WeaponType
 	Pistol,
 	Rifle,
 };
-struct Inventory
+struct Inventory final
 {
-	using AWeapon = Weapon<Bullet>;
+	using AWeapon = Weapon;
 	using WeaponContainer = std::vector<std::optional<AWeapon>>;
 	unsigned int bandageCount;
 	unsigned int bulletCount;
@@ -23,14 +23,14 @@ struct Inventory
 	WeaponContainer::iterator currentWeapon;
 	Character* owner;
 
-	Inventory(Character* owner) : owner(owner) { weapons.resize(INVENTORY_WEAPON_MAX_COUNT); currentWeapon = weapons.begin(); }
+	Inventory(Character* owner, GameObjectManager* gameObjectManager) : owner(owner), gameObjectManager(gameObjectManager) { weapons.resize(INVENTORY_WEAPON_MAX_COUNT); currentWeapon = weapons.begin(); }
 	void UseWeapon(unsigned int index)
 	{
 		assert(index > INVENTORY_WEAPON_MAX_COUNT && "Index outsize of vector!");
 		currentWeapon = weapons.begin() + index;
 	}
 
-	void NextWeapon()
+	void UseNextWeapon()
 	{
 		if (*currentWeapon != std::nullopt)
 		{
@@ -45,13 +45,25 @@ struct Inventory
 			}
 		}
 	}
-	
+
 	void PickupWeapon(AWeapon&& weapon)
 	{
 		weapons.emplace(currentWeapon, std::make_optional(weapon));
 	}
 
+	void DropWeapon(WeaponContainer::iterator it)
+	{
+		//////TODO will crash???
+		if (it->has_value())
+		{
+			AWeapon* tempWeapon = &it->value();
 
+			gameObjectManager->Append<AWeapon>(tempWeapon);
+			
+			weapons.erase(it);
+		}
+	}
 private:
 	WeaponContainer weapons;
+	GameObjectManager* gameObjectManager;
 };

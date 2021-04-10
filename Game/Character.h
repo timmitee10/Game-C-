@@ -4,21 +4,13 @@
 class Character : public GameObject
 {
 public:
-	Character(float health, float velocity,const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
-		const sf::Vector2f& scale = sf::Vector2f(1, 1)) : GameObject(texture, pos, rotation, scale), inventory(this)
-	{
-		this->health = health;
-		this->velocity = velocity;
-		this->inventory = inventory;
-	}
 	Character(float health, float velocity,GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
-		const sf::Vector2f& scale = sf::Vector2f(1, 1)) : GameObject(gameObjects, texture, pos, rotation, scale) , inventory(this)
+		const sf::Vector2f& scale = sf::Vector2f(1, 1)) : GameObject(gameObjects, texture, pos, rotation, scale) , health(health), velocity(velocity), inventory(this, gameObjects)
 	{
-		this->health = health;
-		this->velocity = velocity;
-		this->inventory = inventory;
+
 	}
-	virtual ~Character() {};
+
+	virtual ~Character() = default;
 	void SetWeapon(unsigned int index) { inventory.UseWeapon(index); }
 	Inventory& GetInventory() { return inventory; }
 

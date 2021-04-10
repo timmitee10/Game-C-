@@ -4,7 +4,7 @@
 
 #include "Bullet.h"
 
-class Create : GameObject
+class Create final: GameObject
 {
 public:
 	Create(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation,

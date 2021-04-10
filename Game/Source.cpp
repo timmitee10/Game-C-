@@ -2,7 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include "GameObjectManager.h"
 #include "Player.h"
+#include "Stone.h"
 #include "TextureManager.h"
+#include "Tree.h"
 static Player* player;
 int main()
 {
@@ -21,8 +23,13 @@ int main()
 	if (!TextureManager::Load("tree.png")) throw std::exception("Faild to load file");
 	if (!TextureManager::Load("box.jpg")) throw std::exception("Faild to load file");
 	//manager.Append<Player>(new Player(TextureManager::Get("bird.jpg"), sf::Vector2f(0, 0), 0, sf::Color::White, sf::Vector2f(0.2, 0.2)));
-	player = new Player(100, 100, TextureManager::Get("player.png"), windowOrigin, 0);
+	player = new Player(100, 100, &manager, TextureManager::Get("player.png"), windowOrigin, 0);
 	manager.Append<Player>(player);
+	manager.Append<Tree>(new Tree(TextureManager::Get("player.png"), sf::Vector2f(0, 0), 0.f));
+	manager.Append<Stone>(new Stone(TextureManager::Get("stone.png"), sf::Vector2f(0, 0), 0.f));
+
+	manager.Append(Weapon<Bullet>(,,,))
+	
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -32,7 +39,7 @@ int main()
 				window.close();
 			if(event.type == sf::Event::MouseWheelMoved)
 			{
-				player->GetInventory().NextWeapon();
+				player->GetInventory().UseNextWeapon();
 				//event.mouseWheel.delta
 			}
 		}
