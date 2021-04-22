@@ -6,20 +6,29 @@ class Bar final
 {
 public:
 	Bar(const sf::Texture* texture, sf::Vector2f position, float rotation, float& amount, float maxAmount, sf::Vector2f offset, unsigned int width, unsigned int height)
-		: width(width), height(height), offset(offset), amount(&amount)
+		: target(nullptr), width(width), height(height), amount(&amount), maxAmount(maxAmount), offset(offset)
 	{
 		sprite.setTexture(*texture);
 		sprite.setPosition(position);
 		sprite.setRotation(rotation);
 	};
 	~Bar() = default;
-	void Update()
+	void Update() const
 	{
 		//TODO fix
 	}
-	void Draw(sf::RenderWindow* const renderer)
+	void Draw(sf::RenderWindow* const renderer) const
 	{
 		renderer->draw(sprite);
+	}
+
+	void SetValue(float* ptrAmount)
+	{
+		amount = ptrAmount;
+	}
+	float* GetAmount() const
+	{
+		return amount;
 	}
 private:
 	GameObject* target;
@@ -30,3 +39,4 @@ private:
 	float maxAmount;
 	sf::Vector2f offset;
 };
+
