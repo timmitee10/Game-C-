@@ -18,6 +18,8 @@ struct WeaponDetails
 
 	sf::Texture* equippedTexture;
 	sf::Texture* objectTexture;
+
+	Bullet* bullet;
 };
 
 
@@ -27,7 +29,7 @@ class Weapon
 public:
 	Weapon(const sf::Texture* texture, GameObjectManager* objectManager, Character* owner, WeaponDetails* details,
 	       Bullet* bullet);
-	~Weapon() = default;
+	virtual ~Weapon() { };
 
 	void Reload();
 

@@ -28,10 +28,10 @@ constexpr const char* ToString(WeaponType x)
 //public:
 //	
 //};
-struct Inventory final
+class Inventory final
 {
-	using AWeapon = Weapon;
-	using WeaponContainer = std::vector<std::optional<AWeapon>>;
+public:
+	using WeaponContainer = std::vector<std::optional<Weapon>>;
 	unsigned int bandageCount;
 	unsigned int bulletCount;
 
@@ -61,7 +61,7 @@ struct Inventory final
 		}
 	}
 
-	void PickupWeapon(AWeapon&& weapon)
+	void PickupWeapon(Weapon&& weapon)
 	{
 		weapons.emplace(currentWeapon, std::make_optional(weapon));
 	}
@@ -71,10 +71,9 @@ struct Inventory final
 		//////TODO will crash???
 		if (it->has_value())
 		{
-			AWeapon* tempWeapon = &it->value();
-
-			gameObjectManager->Append<AWeapon>(tempWeapon);
-
+			Weapon* tempWeapon = &it->value();
+			WeaponObject* weaponObject = new WeaponObject(tempWeapon.)
+			gameObjectManager->Append<WeaponObject>(weaponObject);
 			weapons.erase(it);
 		}
 	}

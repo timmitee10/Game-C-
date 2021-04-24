@@ -28,7 +28,7 @@ int main()
 	manager.Append<Tree>(new Tree(TextureManager::Get("player.png"), sf::Vector2f(0, 0), 0.f));
 	manager.Append<Stone>(new Stone(TextureManager::Get("stone.png"), sf::Vector2f(0, 0), 0.f));
 
-	manager.Append(Weapon<Bullet>(,,,))
+	//manager.Append(Weapon(, , , ,));
 	
 	while (window.isOpen())
 	{

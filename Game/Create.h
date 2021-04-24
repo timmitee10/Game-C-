@@ -33,6 +33,6 @@ public:
 		}
 	}
 private:
-	std::vector<Weapon<Bullet>> weapons;
+	std::vector<Weapon> weapons;
 	bool isDestroyed = false;
 };
