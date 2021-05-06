@@ -20,7 +20,6 @@ public:
 	void Draw(sf::RenderWindow* render)
 	{
 		healthBar->Draw(render);
-		
 	}
 public:
 	Bar* healthBar;
