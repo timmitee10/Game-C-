@@ -5,8 +5,12 @@
 #include "Weapon.h"
 #include "Bullet.h"
 #include <optional>
+
+#include "Character.h"
 #define INVENTORY_WEAPON_MAX_COUNT 2
-class Character;
+
+class Weapon;
+class WeaponObject;
 
 enum class WeaponType
 {
@@ -38,45 +42,17 @@ public:
 	WeaponContainer::iterator currentWeapon;
 	Character* owner;
 
-	Inventory(Character* owner, GameObjectManager* gameObjectManager) : owner(owner), gameObjectManager(gameObjectManager) { weapons.resize(INVENTORY_WEAPON_MAX_COUNT); currentWeapon = weapons.begin(); }
-	void UseWeapon(unsigned int index)
-	{
-		assert(index > INVENTORY_WEAPON_MAX_COUNT && "Index outsize of vector!");
-		currentWeapon = weapons.begin() + index;
-	}
+	Inventory(Character* owner, GameObjectManager* gameObjectManager);
 
-	void UseNextWeapon()
-	{
-		if (*currentWeapon != std::nullopt)
-		{
-			const auto next = std::next(currentWeapon, 1);
-			if (next->has_value())
-			{
-				currentWeapon = next;
-			}
-			else
-			{
-				return;
-			}
-		}
-	}
+	void UseWeapon(unsigned int index);
 
-	void PickupWeapon(Weapon&& weapon)
-	{
-		weapons.emplace(currentWeapon, std::make_optional(weapon));
-	}
+	void UseNextWeapon();
 
-	void DropWeapon(WeaponContainer::iterator it)
-	{
-		//////TODO will crash???
-		if (it->has_value())
-		{
-			Weapon* tempWeapon = &it->value();
-			WeaponObject* weaponObject = new WeaponObject(tempWeapon.)
-			gameObjectManager->Append<WeaponObject>(weaponObject);
-			weapons.erase(it);
-		}
-	}
+	void PickupWeapon(WeaponObject& weaponObject);
+
+	void DropWeapon(WeaponContainer::iterator it);
+
+	//void UseBandage();
 private:
 	WeaponContainer weapons;
 	GameObjectManager* gameObjectManager;

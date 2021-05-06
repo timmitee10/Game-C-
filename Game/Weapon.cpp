@@ -1,9 +1,11 @@
 #include "Weapon.h"
 #include "Character.h"
-Weapon::Weapon(const sf::Texture* texture, GameObjectManager* objectManager, Character* owner, WeaponDetails* details,
+#include "TextureManager.h"
+#include "Inventory.h"
+Weapon::Weapon(GameObjectManager* objectManager, Character* owner, WeaponDetails* details,
 	Bullet* bullet)
 {
-	this->sprite.setTexture(*texture, true);
+	this->sprite.setTexture(*details->equippedTexture, true);
 	this->sprite.setPosition(owner->GetPos());
 	this->sprite.setRotation(owner->GetRotation());
 	this->sprite.setOrigin(0, 0);
@@ -21,15 +23,15 @@ void Weapon::Reload()
 
 void Weapon::FillWeapon() const
 {
-	if (owner->GetInventory().bulletCount >= details->totalMagazineCapacity)
+	if (owner->GetInventory()->bulletCount >= details->totalMagazineCapacity)
 	{
 		details->magazineBulletCount = details->totalMagazineCapacity;
-		owner->GetInventory().bulletCount -= details->totalMagazineCapacity;
+		owner->GetInventory()->bulletCount -= details->totalMagazineCapacity;
 	}
-	else if (owner->GetInventory().bulletCount > 0)
+	else if (owner->GetInventory()->bulletCount > 0)
 	{
-		details->magazineBulletCount = owner->GetInventory().bulletCount;
-		owner->GetInventory().bulletCount = 0;
+		details->magazineBulletCount = owner->GetInventory()->bulletCount;
+		owner->GetInventory()->bulletCount = 0;
 	}
 }
 
@@ -39,11 +41,11 @@ void Weapon::Shoot()
 	{
 		if (shootTimer.ElapsedMilliseconds() > details->fireDelay)
 		{
-			Bullet* tempBullet = new Bullet(owner, 10.f, 10.f, objectManager, TextureManager::Get("Bullet"),
-			                                owner->GetPos(), owner->GetRotation());
+			auto* tempBullet = new Bullet(owner, 10.f, 10.f, objectManager, TextureManager::Get("Bullet"),
+			                              owner->GetPos(), owner->GetRotation());
 			tempBullet->SetPosition(owner->GetPos());
 			tempBullet->SetRotation(owner->GetRotation());
-			objectManager->Append<GameObject>(dynamic_cast<const GameObject*>(tempBullet));
+			objectManager->Append(dynamic_cast<const GameObject*>(tempBullet));
 			details->magazineBulletCount--;
 			shootTimer.Reset();
 		}
@@ -64,4 +66,24 @@ void Weapon::Update()
 			FillWeapon();
 		}
 	}
+}
+
+void Weapon::Draw(sf::RenderWindow* render) const
+{
+	render->draw(sprite);
+}
+
+WeaponDetails* Weapon::GetWeaponDetails() const
+{
+	return details;
+}
+
+WeaponObject::WeaponObject(GameObjectManager* gameObjectManager, WeaponDetails* details, Character* target):
+	GameObject(gameObjectManager, details->objectTexture, target->GetPos(), target->GetRotation()), details(details)
+{
+}
+
+WeaponDetails* WeaponObject::GetDetails() const
+{
+	return details;
 }

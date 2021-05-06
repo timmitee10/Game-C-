@@ -131,3 +131,8 @@ bool GameObject::operator!=(const GameObject& lhs) const
 void GameObject::OnCollision(GameObject* object)
 {
 }
+
+sf::Sprite GameObject::CloneSprite() const
+{
+	return this->sprite;
+}

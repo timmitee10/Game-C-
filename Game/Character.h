@@ -1,29 +1,21 @@
 #pragma once
 #include "GameObject.h"
-#include "Inventory.h"
+class Inventory;
 class Character : public GameObject
 {
 public:
-	Character(float health, float velocity,GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
-		const sf::Vector2f& scale = sf::Vector2f(1, 1)) : GameObject(gameObjects, texture, pos, rotation, scale) , health(health), velocity(velocity), inventory(this, gameObjects)
-	{
+	Character(float health, float velocity, GameObjectManager* gameObjects, const sf::Texture* texture,
+	          const sf::Vector2f& pos, float rotation,
+	          const sf::Vector2f& scale = sf::Vector2f(1, 1));
 
-	}
-
-	virtual ~Character() = default;
-	void SetWeapon(unsigned int index) { inventory.UseWeapon(index); }
-	Inventory& GetInventory() { return inventory; }
+	//~Character() override;
+	void SetWeapon(unsigned int index);
+	Inventory* GetInventory();
 
 
-	bool operator==(const GameObject& lhs) const override
-	{
-		return *this == dynamic_cast<const Character&>(lhs);
-	}
+	bool operator==(const GameObject& lhs) const override;
 
-	bool operator!=(const GameObject& lhs) const override
-	{
-		return !this->operator==(lhs);
-	}
+	bool operator!=(const GameObject& lhs) const override;
 	/*
 	using GameObject::Draw;
 	using GameObject::Update;
@@ -45,11 +37,10 @@ public:
 	using GameObject::GetTexture;
 	using GameObject::GetRect;
 	*/
-	float GetHealth() const { return health; }
-	void SetHealth(const float health) { this->health = health; }
+	float GetHealth() const;
+	void SetHealth(const float health);
 protected:
-	float health;
-	float velocity;
-	Inventory inventory;
-	
+	float health = 100.f;
+	float velocity = 2.f;
+	Inventory* myInventory;
 };

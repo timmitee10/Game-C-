@@ -7,11 +7,11 @@ class UserInterface
 {
 public:
 	UserInterface(Character* target, const sf::Texture* uiRifle, const sf::Texture* uiPistol, const sf::Texture* uiBandage) :
-	target(target) , inventory(&target->GetInventory())
+		target(target), inventory(target->GetInventory())
 	{
 		target->GetHealth();
-		
 	}
+
 	~UserInterface()
 	{
 		
@@ -19,11 +19,11 @@ public:
 	
 	void Draw(sf::RenderWindow* render)
 	{
-		healthBar.Draw(render);
+		healthBar->Draw(render);
 		
 	}
 public:
-	Bar healthBar;
+	Bar* healthBar;
 	Character* target;
 	Inventory* inventory; 
 	sf::Sprite* rifle;

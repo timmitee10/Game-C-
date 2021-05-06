@@ -12,7 +12,7 @@ public:
 		this->damage = damage;
 		this->velocity = velocity;
 	}
-	virtual ~Bullet() = default;
+	~Bullet() override = default;
 	void Update(float deltaTime) override;
 private:
 	const Character* owner;

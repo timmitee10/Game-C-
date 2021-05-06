@@ -1,14 +1,9 @@
 #pragma once
 #include "Bullet.h"
-#include "Character.h"
-#include "Character.h"
 #include "GameObjectManager.h"
-#include "TextureManager.h"
 #include "Timer.h"
 
 class Character;
-
-
 struct WeaponDetails
 {
 	float reloadTime;
@@ -20,15 +15,16 @@ struct WeaponDetails
 	sf::Texture* objectTexture;
 
 	Bullet* bullet;
-};
+}; 
 
 
-/* Weapon in inventory */
-class Weapon
+/* Weapon in myInventory */
+class Weapon 
 {
 public:
-	Weapon(const sf::Texture* texture, GameObjectManager* objectManager, Character* owner, WeaponDetails* details,
-	       Bullet* bullet);
+	Weapon(GameObjectManager* objectManager, Character* owner, WeaponDetails* details,
+		Bullet* bullet);
+
 	virtual ~Weapon() { };
 
 	void Reload();
@@ -39,10 +35,9 @@ public:
 
 	void Update();
 
-	void Draw(sf::RenderWindow* render) const
-	{
-		render->draw(sprite);
-	}
+	void Draw(sf::RenderWindow* render) const;
+
+	WeaponDetails* GetWeaponDetails() const;
 protected:
 	sf::Sprite sprite;
 	WeaponDetails* details;
@@ -60,13 +55,17 @@ protected:
 class WeaponObject : GameObject
 {
 public:
-	WeaponObject(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
-		WeaponDetails* details, const sf::Vector2f& scale = sf::Vector2f(1, 1)) : GameObject(gameObjects, texture, pos, rotation, scale), details(details)
-	{
-		
-	}
-	
-	
+	//WeaponObject(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
+	//	WeaponDetails* details, const sf::Vector2f& scale = sf::Vector2f(1, 1)) :
+	//	GameObject(gameObjects, texture, pos, rotation, scale), details(details)
+	//{
+
+	//}
+
+	WeaponObject(GameObjectManager* gameObjectManager, WeaponDetails* details, Character* target);
+
+	WeaponDetails* GetDetails() const;
+
 protected:
 	WeaponDetails* details;
 };

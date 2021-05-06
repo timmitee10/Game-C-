@@ -13,10 +13,7 @@ void Bullet::Update(float deltaTime)
 				const float tempNewHealth = p->GetHealth() - damage;
 				p->SetHealth(tempNewHealth);
 			}
-			else
-			{
-				this->isRemoved = true;
-			}
+			this->isRemoved = true;
 		}
 	}
 }

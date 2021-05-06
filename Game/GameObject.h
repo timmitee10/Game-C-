@@ -81,10 +81,7 @@ public:
 
 	virtual void OnCollision(GameObject* object);
 
-	sf::Sprite CloneSprite() const
-	{
-		return this->sprite;
-	}
+	sf::Sprite CloneSprite() const;
 protected:
 	sf::Vector2f position;
 	sf::Vector2f direction = sf::Vector2f(0, 0);
