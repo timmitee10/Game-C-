@@ -34,15 +34,17 @@ void GameObjectManager::UpdateAll()
 		}
 	}
 }
-
-void GameObjectManager::Append(const GameObject* obj)
+void GameObjectManager::Remove(GameObject* ptr)
 {
-	gameObjects.push_back(std::make_unique<GameObject>(*obj));
-	/* https://en.cppreference.com/w/cpp/iterator/end */
-	//objectMemoryMap.insert({ obj, gameObjects.end() - 1 });
+	//gameObjects.erase(objectMemoryMap.at(ptr));
+}
+void GameObjectManager::Append(std::shared_ptr<GameObject> obj)
+{
+	gameObjects.push_back(obj);
+
 }
 
-std::vector<std::unique_ptr<GameObject>>* GameObjectManager::GetVector()
+GameObjectManager::GameObjectContainer* GameObjectManager::GetVector()
 {
 	return &gameObjects;
 }

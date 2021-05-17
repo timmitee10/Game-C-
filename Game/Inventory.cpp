@@ -33,7 +33,7 @@ void Inventory::UseNextWeapon()
 
 void Inventory::PickupWeapon(WeaponObject& weaponObject)
 {
-	Weapon* weapon = new Weapon(gameObjectManager, owner, weaponObject.GetDetails(), weaponObject.GetDetails()->bullet);
+	Weapon* weapon = new Weapon(gameObjectManager, owner, weaponObject.GetDetails());
 	weapons.emplace(currentWeapon, std::make_optional(*weapon));
 }
 
@@ -44,7 +44,7 @@ void Inventory::DropWeapon(WeaponContainer::iterator it)
 	{
 		Weapon* tempWeapon = &it->value();
 		WeaponObject* weaponObject = new WeaponObject(gameObjectManager, tempWeapon->GetWeaponDetails(), owner);
-		gameObjectManager->Append(reinterpret_cast<GameObject*>(weaponObject));
+		gameObjectManager->Append(std::dynamic_pointer_cast<GameObject>(std::shared_ptr<WeaponObject>(weaponObject)));
 		weapons.erase(it);
 	}
 }

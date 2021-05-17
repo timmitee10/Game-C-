@@ -22,8 +22,7 @@ struct WeaponDetails
 class Weapon 
 {
 public:
-	Weapon(GameObjectManager* objectManager, Character* owner, WeaponDetails* details,
-		Bullet* bullet);
+	Weapon(GameObjectManager* objectManager, Character* owner, WeaponDetails* details);
 
 	virtual ~Weapon() { };
 
@@ -52,7 +51,7 @@ protected:
 
 
 /* Weapon on ground able to be picked up */
-class WeaponObject : GameObject
+class WeaponObject : public GameObject
 {
 public:
 	//WeaponObject(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation,

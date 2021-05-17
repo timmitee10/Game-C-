@@ -13,7 +13,8 @@ inline float RadToDeg(float radians)
 
 inline float DegToRad(float degrees)
 {
-	return (degrees * PI) / 180.f;
+	return (2 * PI * (degrees / 360));
+	//return (degrees * PI) / 180.f;
 }
 
 inline sf::Vector2f normalize(const sf::Vector2f& source)
@@ -37,6 +38,11 @@ inline sf::Vector2f calcDirection(float degRotation)
 	return sf::Vector2f(std::cos(DegToRad(90) - DegToRad(degRotation)), -std::sin(DegToRad(90) - DegToRad(degRotation)));
 }
 
+inline float calcRotation(const sf::Vector2f& direction)
+{
+	return std::atan2(direction.y, direction.x);
+}
+
 class GameObject
 {
 public:
@@ -46,7 +52,8 @@ public:
 	GameObject(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
 		const sf::Vector2f& scale = sf::Vector2f(1, 1));
 
-	virtual ~GameObject() = default;
+	virtual ~GameObject();
+	using HitBox = sf::Rect<int>;
 public:
 	void SetRelativePositionAndRotation(GameObject* target, sf::Vector2f offset);
 	sf::Vector2f& GetPos();
@@ -54,7 +61,7 @@ public:
 	sf::Vector2f GetOrigin() const;
 	sf::Vector2f GetScale() const;
 	sf::Color GetColor() const;
-	const sf::Rect<float>& GetRect() const;
+	HitBox* GetHitBox() const;
 	const sf::Texture* GetTexture() const;
 	bool IsRemoved() const;
 	void SetPosition(const sf::Vector2f& pos);
@@ -65,15 +72,15 @@ public:
 
 	virtual void Draw(sf::RenderWindow* const renderer) const;
 
-	bool Intersects(const sf::Rect<float>& rect) const;
+	bool Intersects(GameObject::HitBox* rect) const;
 
-	bool IntersectsTop(const sf::Rect<float>& rect) const;
+	bool IntersectsTop(GameObject::HitBox* rect) const;
 
-	bool IntersectsBottom(const sf::Rect<float>& rect) const;
+	bool IntersectsBottom(GameObject::HitBox* rect) const;
 
-	bool IntersectsLeft(const sf::Rect<float>& rect) const;
+	bool IntersectsLeft(GameObject::HitBox* rect) const;
 
-	bool IntersectsRight(const sf::Rect<float>& rect) const;
+	bool IntersectsRight(GameObject::HitBox* rect) const;
 
 	virtual bool operator==(const GameObject& lhs) const;
 
@@ -82,6 +89,9 @@ public:
 	virtual void OnCollision(GameObject* object);
 
 	sf::Sprite CloneSprite() const;
+
+	void AddForce(sf::Vector2f direction, float velocity, float deltaTime);
+	void AddForce(float rotation, float velocity, float deltaTime);
 protected:
 	sf::Vector2f position;
 	sf::Vector2f direction = sf::Vector2f(0, 0);
@@ -92,7 +102,7 @@ protected:
 	float rotation;
 	const sf::Texture* texture;
 	sf::Sprite sprite;
-	sf::Rect<float> hitBox;
+	HitBox* hitBox = nullptr;
 	GameObjectManager* objectManager;
 	bool isRemoved = false;
 };

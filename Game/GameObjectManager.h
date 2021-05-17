@@ -6,7 +6,7 @@
 class GameObjectManager
 {
 public:
-	using GameObjectContainer = std::vector<std::unique_ptr<GameObject>>;
+	using GameObjectContainer = std::vector<std::shared_ptr<GameObject>>;
 	GameObjectManager(sf::RenderWindow* renderer);;
 	~GameObjectManager() = default;
 public:
@@ -14,18 +14,16 @@ public:
 
 	void UpdateAll();
 
-	void Remove(const GameObject* ptr)
-	{
-		//gameObjects.erase(objectMemoryMap.at(ptr));
-	}
-
-	void Append(const GameObject* obj);
-
-	std::vector<std::unique_ptr<GameObject>>* GetVector();
+	void Remove(GameObject* ptr);
+	void Append(std::shared_ptr<GameObject> obj);
+	GameObjectContainer* GetVector();
 private:
 	sf::RenderWindow* renderer;
 	GameObjectContainer gameObjects;
 	Timer timer;
+	/* Index used for fast lookup of game object, the index is equal to the start memory location of the gameobject and is linked to the index in the vector. Allowing for super fast lookup */
+	std::map<const GameObject*, GameObjectContainer::iterator> objectMemoryIndex; 
+
 	/* Memory address of object to object is vector */
 	//std::map<const GameObject*, GameObjectContainer::iterator> objectMemoryMap;
 };

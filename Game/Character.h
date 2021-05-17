@@ -8,7 +8,6 @@ public:
 	          const sf::Vector2f& pos, float rotation,
 	          const sf::Vector2f& scale = sf::Vector2f(1, 1));
 
-	//~Character() override;
 	void SetWeapon(unsigned int index);
 	Inventory* GetInventory();
 
@@ -16,6 +15,7 @@ public:
 	bool operator==(const GameObject& lhs) const override;
 
 	bool operator!=(const GameObject& lhs) const override;
+	
 	/*
 	using GameObject::Draw;
 	using GameObject::Update;
@@ -38,9 +38,11 @@ public:
 	using GameObject::GetRect;
 	*/
 	float GetHealth() const;
+	float GetMaxHealth() const;
 	void SetHealth(const float health);
 protected:
 	float health = 100.f;
-	float velocity = 2.f;
+	float velocity = 0.f;
+	float maxHealth = 100.f;
 	Inventory* myInventory;
 };

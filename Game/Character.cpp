@@ -32,6 +32,11 @@ float Character::GetHealth() const
 	return health;
 }
 
+float Character::GetMaxHealth() const
+{
+	return maxHealth;
+}
+
 void Character::SetHealth(const float health)
 {
 	this->health = health;

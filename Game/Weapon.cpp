@@ -2,14 +2,12 @@
 #include "Character.h"
 #include "TextureManager.h"
 #include "Inventory.h"
-Weapon::Weapon(GameObjectManager* objectManager, Character* owner, WeaponDetails* details,
-	Bullet* bullet)
+Weapon::Weapon(GameObjectManager* objectManager, Character* owner, WeaponDetails* details)
 {
 	this->sprite.setTexture(*details->equippedTexture, true);
 	this->sprite.setPosition(owner->GetPos());
 	this->sprite.setRotation(owner->GetRotation());
 	this->sprite.setOrigin(0, 0);
-	
 }
 
 void Weapon::Reload()
@@ -41,11 +39,11 @@ void Weapon::Shoot()
 	{
 		if (shootTimer.ElapsedMilliseconds() > details->fireDelay)
 		{
-			auto* tempBullet = new Bullet(owner, 10.f, 10.f, objectManager, TextureManager::Get("Bullet"),
-			                              owner->GetPos(), owner->GetRotation());
+			auto tempBullet = std::make_shared<Bullet>(owner, 10.f, 10.f, objectManager, TextureManager::Get("Bullet"),
+				owner->GetPos(), owner->GetRotation());
 			tempBullet->SetPosition(owner->GetPos());
 			tempBullet->SetRotation(owner->GetRotation());
-			objectManager->Append(dynamic_cast<const GameObject*>(tempBullet));
+			objectManager->Append(std::dynamic_pointer_cast<GameObject>(tempBullet));
 			details->magazineBulletCount--;
 			shootTimer.Reset();
 		}
@@ -78,7 +76,7 @@ WeaponDetails* Weapon::GetWeaponDetails() const
 	return details;
 }
 
-WeaponObject::WeaponObject(GameObjectManager* gameObjectManager, WeaponDetails* details, Character* target):
+WeaponObject::WeaponObject(GameObjectManager* gameObjectManager, WeaponDetails* details, Character* target) :
 	GameObject(gameObjectManager, details->objectTexture, target->GetPos(), target->GetRotation()), details(details)
 {
 }

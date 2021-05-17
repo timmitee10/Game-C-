@@ -2,7 +2,7 @@
 
 GameObject::GameObject(const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
 	const sf::Vector2f& scale) :
-	position(pos), origin(pos.x / 2, pos.y / 2), scale(scale), rotation(rotation), texture(texture)
+	position(pos), origin(texture->getSize().x / 2, texture->getSize().x / 2), scale(scale), rotation(rotation), texture(texture)
 {
 	this->direction = calcDirection(rotation);
 	sprite.setPosition(this->position);
@@ -10,12 +10,18 @@ GameObject::GameObject(const sf::Texture* texture, const sf::Vector2f& pos, floa
 	sprite.setRotation(this->rotation);
 	sprite.setTexture(*this->texture);
 	sprite.setScale(this->scale);
+	this->hitBox = (HitBox*)&this->sprite.getTextureRect();
+	this->direction = calcDirection(rotation);
 	//sprite.setColor(this->color);
 }
 GameObject::GameObject(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
 	const sf::Vector2f& scale) : GameObject(texture, pos, rotation, scale)
 {
 	this->objectManager = gameObjects;
+}
+
+GameObject::~GameObject()
+{
 }
 
 void GameObject::SetRelativePositionAndRotation(GameObject* target, sf::Vector2f offset)
@@ -49,7 +55,7 @@ sf::Color GameObject::GetColor() const
 	return color;
 }
 
-const sf::Rect<float>& GameObject::GetRect() const
+GameObject::HitBox* GameObject::GetHitBox() const
 {
 	return this->hitBox;
 }
@@ -67,6 +73,7 @@ bool GameObject::IsRemoved() const
 void GameObject::SetPosition(const sf::Vector2f& pos)
 {
 	this->position = pos;
+	this->sprite.setPosition(this->position);
 }
 
 void GameObject::SetRotation(const float rotation)
@@ -85,7 +92,7 @@ void GameObject::Update(float deltaTime)
 	//myDirection = new Vector2((float)Math.Cos(MathHelper.ToRadians(90) - myRotation), -(float)Math.Sin(MathHelper.ToRadians(90) - myRotation));
 
 	//direction = sf::Vector2f(std::cos(DegToRad(90) - rotation), -std::sin(DegToRad(90) - rotation));
-	direction = calcDirection(rotation);
+	//direction = calcDirection(rotation);
 }
 
 void GameObject::Draw(sf::RenderWindow* renderer) const
@@ -93,27 +100,29 @@ void GameObject::Draw(sf::RenderWindow* renderer) const
 	renderer->draw(sprite);
 }
 
-bool GameObject::Intersects(const sf::Rect<float>& rect) const
+bool GameObject::Intersects(GameObject::HitBox* rect) const
 {
-	return this->hitBox.intersects(rect);
+	if (this->hitBox != nullptr && rect != nullptr)
+		return this->hitBox->intersects(*rect);
 }
 
-bool GameObject::IntersectsTop(const sf::Rect<float>& rect) const
+bool GameObject::IntersectsTop(GameObject::HitBox* rect) const
+{
+
+	return false;
+}
+
+bool GameObject::IntersectsBottom(GameObject::HitBox* rect) const
 {
 	return false;
 }
 
-bool GameObject::IntersectsBottom(const sf::Rect<float>& rect) const
+bool GameObject::IntersectsLeft(GameObject::HitBox* rect) const
 {
 	return false;
 }
 
-bool GameObject::IntersectsLeft(const sf::Rect<float>& rect) const
-{
-	return false;
-}
-
-bool GameObject::IntersectsRight(const sf::Rect<float>& rect) const
+bool GameObject::IntersectsRight(GameObject::HitBox* rect) const
 {
 	return false;
 }
@@ -130,9 +139,22 @@ bool GameObject::operator!=(const GameObject& lhs) const
 
 void GameObject::OnCollision(GameObject* object)
 {
+
 }
 
 sf::Sprite GameObject::CloneSprite() const
 {
 	return this->sprite;
+}
+
+void GameObject::AddForce(sf::Vector2f direction, float velocity, float deltaTime)
+{
+	this->position += direction * velocity * deltaTime * 0.0000001f;
+}
+
+void GameObject::AddForce(float rotation, float velocity, float deltaTime)
+{
+	this->position += calcDirection(rotation) * velocity * deltaTime * 0.0000001f;
+	this->sprite.setPosition(position);
+	//this->SetPosition(this->position);
 }

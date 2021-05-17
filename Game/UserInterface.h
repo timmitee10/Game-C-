@@ -6,21 +6,11 @@ typedef GameObject UIElement;
 class UserInterface
 {
 public:
-	UserInterface(Character* target, const sf::Texture* uiRifle, const sf::Texture* uiPistol, const sf::Texture* uiBandage) :
-		target(target), inventory(target->GetInventory())
-	{
-		target->GetHealth();
-	}
+	UserInterface(Character* target, const sf::Texture* uiRifle, const sf::Texture* uiPistol, const sf::Texture* uiBandage);
 
-	~UserInterface()
-	{
-		
-	}
+	~UserInterface();
 	
-	void Draw(sf::RenderWindow* render)
-	{
-		healthBar->Draw(render);
-	}
+	void Draw(sf::RenderWindow* render);
 public:
 	Bar* healthBar;
 	Character* target;
