@@ -5,9 +5,10 @@
 #include "Stone.h"
 #include "TextureManager.h"
 #include "Tree.h"
+#include "Create.h"
 inline float RandomRotation()
 {
-	return (std::rand() % 360);
+	return (std::rand() % 360 + 1);
 }
 
 static std::vector<WeaponDetails> avalibleWeapons;
@@ -35,15 +36,17 @@ int main()
 	player = std::make_shared<Player>(100, 100, &manager, TextureManager::Get("player.png"), sf::Vector2f(50, 50), 0, &window);
 	manager.Append(std::dynamic_pointer_cast<GameObject>(player));
 
-	manager.Append(std::dynamic_pointer_cast<GameObject>(std::make_shared<Tree>(TextureManager::Get("player.png"), sf::Vector2f(0, 0), 0.f)));
-	manager.Append(std::make_shared<GameObject>(TextureManager::Get("stone.png"), sf::Vector2f(0, 0), 0.f));
+	//manager.Append(std::dynamic_pointer_cast<GameObject>(std::make_shared<Tree>(TextureManager::Get("player.png"), sf::Vector2f(0, 0), 0.f)));
+	
+	//manager.Append(std::make_shared<GameObject>(TextureManager::Get("stone.png"), sf::Vector2f(0, 0), 0.f));
+	
 	//manager.Append(std::dynamic_pointer_cast<GameObject>(std::make_shared<Stone>(TextureManager::Get("stone.png"), sf::Vector2f(1900, 1121), 0.f)));
 	//manager.Append(std::dynamic_pointer_cast<GameObject>(std::make_shared<Stone>(TextureManager::Get("stone.png"), sf::Vector2f(1453, 1423), 0.f)));
-
 	//manager.Append(Weapon(, , , ,));
 	avalibleWeapons.resize(2);
 
-
+	std::shared_ptr<Crate> crate = std::make_shared<Crate>(&manager, TextureManager::Get("box.jpg"), sf::Vector2f(0, 0), 0);
+	manager.Append(std::dynamic_pointer_cast<GameObject>(crate));
 
 	sf::View view;
 	window.setView(view);

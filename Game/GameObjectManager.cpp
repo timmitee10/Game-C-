@@ -9,6 +9,7 @@ void GameObjectManager::DrawAll() const
 {
 	for (const auto& object : gameObjects)
 	{
+		
 		if (object.get() != nullptr)
 		{
 			object->Draw(renderer);
@@ -23,7 +24,6 @@ void GameObjectManager::UpdateAll()
 	{
 		if (object->get() != nullptr)
 		{
-
 			object->get()->Update(timer.ElapsedNanoseconds());
 			if (object->get()->IsRemoved())
 			{
@@ -31,7 +31,6 @@ void GameObjectManager::UpdateAll()
 			}
 		}
 	}
-
 	/* Remove */
 	for (auto object = gameObjects.rbegin(); object != gameObjects.rend(); ++object)
 	{
@@ -52,7 +51,6 @@ void GameObjectManager::Remove(GameObject* ptr)
 void GameObjectManager::Append(std::shared_ptr<GameObject> obj)
 {
 	gameObjects.push_back(obj);
-
 }
 
 GameObjectManager::GameObjectContainer* GameObjectManager::GetVector()

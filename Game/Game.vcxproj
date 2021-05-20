@@ -152,9 +152,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bot.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Character.cpp" />
-    <ClCompile Include="Create.cpp" />
+    <ClCompile Include="Crate.cpp" />
     <ClCompile Include="Fist.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
@@ -170,7 +171,7 @@
     <ClInclude Include="Bot.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Character.h" />
-    <ClInclude Include="Create.h" />
+    <ClInclude Include="Crate.h" />
     <ClInclude Include="Fist.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />

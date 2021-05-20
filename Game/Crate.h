@@ -32,14 +32,15 @@ inline std::vector<Weapon*> randomWeapon(int count, std::vector<WeaponDetails>* 
 	});
 }
 
-class Create final : GameObject
+class Crate final : GameObject
 {
 public:
-	Create(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
+	Crate(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
 		const sf::Vector2f& scale = sf::Vector2f(1, 1));
-	virtual ~Create();
+	virtual ~Crate();
 	void Destroy();
-	void Draw(sf::RenderWindow* const renderer) const override;
+	virtual void Update(float deltaTime) override;
+	virtual void Draw(sf::RenderWindow* const renderer) const override;
 private:
 	std::vector<WeaponObject> weapons;
 	bool isDestroyed = false;
