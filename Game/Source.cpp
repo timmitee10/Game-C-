@@ -5,18 +5,35 @@
 #include "Stone.h"
 #include "TextureManager.h"
 #include "Tree.h"
-#include "Create.h"
+#include "Crate.h"
 inline float RandomRotation()
 {
 	return (std::rand() % 360 + 1);
 }
-
+static sf::Rect<float>* mapBounderes;
+inline void SpawnObject(GameObjectManager* manager, Player* player, std::shared_ptr<GameObject> object, unsigned int count)
+{
+	unsigned int i = 0;
+	while (i < count)
+	{
+		object->SetPosition(sf::Vector2f(std::rand() % (int)mapBounderes->width,
+			std::rand() % (int)mapBounderes->height));
+		if (Vector2Distance(object->GetPos(), player->GetPos()) > 1000)
+		{
+			manager->Append(object);
+			i++;
+		}
+		else
+			continue;
+	}
+}
 static std::vector<WeaponDetails> avalibleWeapons;
 static Bullet* bullet;
 static std::shared_ptr<Player> player;
 int main()
 {
 	srand(time(0));
+	mapBounderes = new sf::Rect<float>(0, 0, 10000, 10000);
 	auto videoMode = sf::VideoMode::getFullscreenModes();
 	//sf::RenderWindow window(videoMode[0], "SFML works!");
 	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
@@ -37,9 +54,9 @@ int main()
 	manager.Append(std::dynamic_pointer_cast<GameObject>(player));
 
 	//manager.Append(std::dynamic_pointer_cast<GameObject>(std::make_shared<Tree>(TextureManager::Get("player.png"), sf::Vector2f(0, 0), 0.f)));
-	
-	//manager.Append(std::make_shared<GameObject>(TextureManager::Get("stone.png"), sf::Vector2f(0, 0), 0.f));
-	
+
+	manager.Append(std::make_shared<GameObject>(TextureManager::Get("box.jpg"), sf::Vector2f(0, 0), 0.f));
+
 	//manager.Append(std::dynamic_pointer_cast<GameObject>(std::make_shared<Stone>(TextureManager::Get("stone.png"), sf::Vector2f(1900, 1121), 0.f)));
 	//manager.Append(std::dynamic_pointer_cast<GameObject>(std::make_shared<Stone>(TextureManager::Get("stone.png"), sf::Vector2f(1453, 1423), 0.f)));
 	//manager.Append(Weapon(, , , ,));

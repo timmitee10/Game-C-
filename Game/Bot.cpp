@@ -1,6 +1,6 @@
 #include "Bot.h"
 
-Bot::Bot(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Vector2f& scale) : 
+Bot::Bot(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Vector2f& scale) :
 	Character(health, velocity, gameObjects, texture, pos, rotation, scale)
 {
 
@@ -8,11 +8,17 @@ Bot::Bot(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::V
 
 void Bot::Update(float deltaTime)
 {
-	this->objectManager;
-	this->position;
-	this->rotation;
-	this->velocity;
-	this->health;
+	std::vector<std::shared_ptr<GameObject>>* temp = this->objectManager->GetVector();
+	for (auto& a : temp)
+	{
+		auto* p = dynamic_cast<Character*>(a.get());
+		if (p)
+		{
+			const float tempNewHealth = p->GetHealth() - damage;
+			p->SetHealth(tempNewHealth);
+		}
+		this->isRemoved = true;
+	}
 }
 
 void Bot::Draw(sf::RenderWindow* const renderer) const
