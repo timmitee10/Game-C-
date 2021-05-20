@@ -31,13 +31,13 @@ int main()
 	if (!TextureManager::Load("tree.png")) throw std::exception("Faild to load file");
 	if (!TextureManager::Load("box.jpg")) throw std::exception("Faild to load file");
 	//manager.Append<Player>(new Player(TextureManager::Get("bird.jpg"), sf::Vector2f(0, 0), 0, sf::Color::White, sf::Vector2f(0.2, 0.2)));
-	player = std::make_shared<Player>(100, 100, &manager, TextureManager::Get("player.png"), sf::Vector2f(50,50), 0, &window);
+	player = std::make_shared<Player>(100, 100, &manager, TextureManager::Get("player.png"), sf::Vector2f(50, 50), 0, &window);
 	manager.Append(std::dynamic_pointer_cast<GameObject>(player));
-	//manager.Append(reinterpret_cast<GameObject*>(new Tree(TextureManager::Get("player.png"), sf::Vector2f(0, 0), 0.f)));
-	//manager.Append(reinterpret_cast<GameObject*>(new Stone(TextureManager::Get("stone.png"), sf::Vector2f(0, 0), 0.f)));
-	//
-	//manager.Append(reinterpret_cast<GameObject*>(new Stone(TextureManager::Get("stone.png"), sf::Vector2f(1900, 1121), 0.f)));
-	//manager.Append(reinterpret_cast<GameObject*>(new Stone(TextureManager::Get("stone.png"), sf::Vector2f(1453, 1423), 0.f)));
+
+	manager.Append(std::dynamic_pointer_cast<GameObject>(std::make_shared<Tree>(TextureManager::Get("player.png"), sf::Vector2f(0, 0), 0.f)));
+	manager.Append(std::make_shared<GameObject>(TextureManager::Get("stone.png"), sf::Vector2f(0, 0), 0.f));
+	//manager.Append(std::dynamic_pointer_cast<GameObject>(std::make_shared<Stone>(TextureManager::Get("stone.png"), sf::Vector2f(1900, 1121), 0.f)));
+	//manager.Append(std::dynamic_pointer_cast<GameObject>(std::make_shared<Stone>(TextureManager::Get("stone.png"), sf::Vector2f(1453, 1423), 0.f)));
 
 	//manager.Append(Weapon(, , , ,));
 	avalibleWeapons.resize(2);

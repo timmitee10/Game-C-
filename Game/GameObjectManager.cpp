@@ -9,7 +9,10 @@ void GameObjectManager::DrawAll() const
 {
 	for (const auto& object : gameObjects)
 	{
-		object->Draw(renderer);
+		if (object.get() != nullptr)
+		{
+			object->Draw(renderer);
+		}
 	}
 }
 
@@ -18,19 +21,27 @@ void GameObjectManager::UpdateAll()
 	/* Update */
 	for (auto object = gameObjects.rbegin(); object != gameObjects.rend(); ++object)
 	{
-		object->get()->Update(timer.ElapsedNanoseconds());
-		if (object->get()->IsRemoved())
+		if (object->get() != nullptr)
 		{
-			gameObjects.erase(std::next(object).base());
+
+			object->get()->Update(timer.ElapsedNanoseconds());
+			if (object->get()->IsRemoved())
+			{
+				gameObjects.erase(std::next(object).base());
+			}
 		}
 	}
 
 	/* Remove */
 	for (auto object = gameObjects.rbegin(); object != gameObjects.rend(); ++object)
 	{
-		if (object->get()->IsRemoved())
+		if (object->get() != nullptr)
 		{
-			gameObjects.erase(std::next(object).base());
+
+			if (object->get()->IsRemoved())
+			{
+				gameObjects.erase(std::next(object).base());
+			}
 		}
 	}
 }

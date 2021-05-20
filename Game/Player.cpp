@@ -61,6 +61,13 @@ void Player::Update(float deltaTime)
 	//float rotatio = std::atan2f(dir.y, dir.x);
 
 	//this->sprite.setRotation(rotation + 90.f);
+
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+	{
+		this
+	}
+
 }
 
 void Player::Draw(sf::RenderWindow* const renderer) const
