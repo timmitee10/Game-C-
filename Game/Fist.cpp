@@ -1,15 +1,14 @@
-#include "Bullet.h"
+#include "Fist.h"
 #include "Character.h"
-Bullet::Bullet(const Character* owner, float damage, float velocity, GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Vector2f& scale)
+Fist::Fist(const Character* owner, float damage, float velocity, GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation, const sf::Vector2f& scale)
 	: GameObject(gameObjects, texture, pos, rotation, scale) {
 	this->owner = owner;
 	this->damage = damage;
 	this->velocity = velocity;
 
-
 	this->orignalPosition = this->position;
 }
-void Bullet::Update(float deltaTime)
+void Fist::Update(float deltaTime)
 {
 	std::vector<std::shared_ptr<GameObject>>* temp = this->objectManager->GetVector();
 	for (auto& a : *temp)
@@ -25,9 +24,9 @@ void Bullet::Update(float deltaTime)
 			this->isRemoved = true;
 		}
 	}
-
 	this->AddForce(this->rotation, this->velocity, deltaTime);
-	if (Vector2Distance<float>(this->orignalPosition, this->position) > maxDistance)
+
+	if (Vector2Distance<float>( this->orignalPosition , this->position) > maxDistance)
 	{
 		this->isRemoved = true;
 	}

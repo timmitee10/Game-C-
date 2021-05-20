@@ -42,6 +42,12 @@ inline float calcRotation(const sf::Vector2f& direction)
 {
 	return std::atan2(direction.y, direction.x);
 }
+template<typename T>
+T Vector2Distance(const sf::Vector2<T>& from, const sf::Vector2<T>& to) 
+{
+	auto result = from - to;
+	return std::sqrt(result.x * result.x + result.y * result.y);
+}
 
 class GameObject
 {

@@ -65,7 +65,7 @@ void Player::Update(float deltaTime)
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	{
-		this
+		
 	}
 
 }

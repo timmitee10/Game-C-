@@ -2,12 +2,12 @@
 #include "GameObjectManager.h"
 class Character;
 
-class Bullet : public GameObject
+class Fist : public GameObject
 {
 public:
-	Bullet(const Character* owner, float damage, float velocity, GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
+	Fist(const Character* owner, float damage, float velocity, GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
 		const sf::Vector2f& scale = sf::Vector2f(1, 1));
-	~Bullet() override = default;
+	~Fist() override = default;
 	void Update(float deltaTime) override;
 private:
 	const Character* owner;
@@ -16,5 +16,5 @@ private:
 	sf::Vector2f offset;
 
 	sf::Vector2f orignalPosition;
-	float maxDistance = 100;
+	float maxDistance = 20;
 };
