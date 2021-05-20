@@ -15,6 +15,7 @@ static Bullet* bullet;
 static std::shared_ptr<Player> player;
 int main()
 {
+	srand(time(0));
 	auto videoMode = sf::VideoMode::getFullscreenModes();
 	//sf::RenderWindow window(videoMode[0], "SFML works!");
 	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
