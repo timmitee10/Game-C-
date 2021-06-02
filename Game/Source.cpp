@@ -6,6 +6,7 @@
 #include "TextureManager.h"
 #include "Tree.h"
 #include "Crate.h"
+#include "Socket.h"
 inline float RandomRotation()
 {
 	return (std::rand() % 360 + 1);
@@ -30,13 +31,23 @@ inline void SpawnObject(GameObjectManager* manager, Player* player, std::shared_
 static std::vector<WeaponDetails> avalibleWeapons;
 static Bullet* bullet;
 static std::shared_ptr<Player> player;
+static Weapon* basicWeapon;
+static NodelNet::Socket* mySocket;
 int main()
 {
 	srand(time(0));
 	mapBounderes = new sf::Rect<float>(0, 0, 10000, 10000);
+
+	using namespace NodelNet;
+	//IPEndPoint ipEnd(IPAddressV4::Loopback());
+	//mySocket = new Socket(IPVersion::IPv4);
+	//mySocket->Connect(ipEnd);
+
 	auto videoMode = sf::VideoMode::getFullscreenModes();
 	//sf::RenderWindow window(videoMode[0], "SFML works!");
+	
 	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
+
 	auto windowSize = window.getSize();
 	auto windowOrigin = sf::Vector2f(windowSize.x / 2, windowSize.y / 2);
 	//sf::CircleShape shape(1000.f);
@@ -50,23 +61,36 @@ int main()
 	if (!TextureManager::Load("tree.png")) throw std::exception("Faild to load file");
 	if (!TextureManager::Load("box.jpg")) throw std::exception("Faild to load file");
 	//manager.Append<Player>(new Player(TextureManager::Get("bird.jpg"), sf::Vector2f(0, 0), 0, sf::Color::White, sf::Vector2f(0.2, 0.2)));
-	player = std::make_shared<Player>(100, 100, &manager, TextureManager::Get("player.png"), sf::Vector2f(50, 50), 0, &window);
-	manager.Append(std::dynamic_pointer_cast<GameObject>(player));
+	WeaponDetails details;
+	details.bullet = bullet;
+	details.fireDelay = 2.f;
+	details.magazineBulletCount = 30;
+	details.totalMagazineCapacity = 30;
+	details.equippedTexture = (sf::Texture*)TextureManager::Get("rifle2.png");
+	details.objectTexture;
+	details.reloadTime = 2.f;
 
+	basicWeapon = new Weapon(&manager, &details);
+	player = std::make_shared<Player>(100, 100, &manager, TextureManager::Get("player.png"), sf::Vector2f(0, 0), 0, &window, basicWeapon);
+	basicWeapon->SetOwner(std::dynamic_pointer_cast<Character>(player).get());
+	manager.Append(std::dynamic_pointer_cast<GameObject>(player));
+	
 	//manager.Append(std::dynamic_pointer_cast<GameObject>(std::make_shared<Tree>(TextureManager::Get("player.png"), sf::Vector2f(0, 0), 0.f)));
 
-	manager.Append(std::make_shared<GameObject>(TextureManager::Get("box.jpg"), sf::Vector2f(0, 0), 0.f));
+	//manager.Append(std::make_shared<GameObject>(TextureManager::Get("box.jpg"), sf::Vector2f(0, 0), 0.f));
+
 
 	//manager.Append(std::dynamic_pointer_cast<GameObject>(std::make_shared<Stone>(TextureManager::Get("stone.png"), sf::Vector2f(1900, 1121), 0.f)));
 	//manager.Append(std::dynamic_pointer_cast<GameObject>(std::make_shared<Stone>(TextureManager::Get("stone.png"), sf::Vector2f(1453, 1423), 0.f)));
 	//manager.Append(Weapon(, , , ,));
 	avalibleWeapons.resize(2);
 
-	std::shared_ptr<Crate> crate = std::make_shared<Crate>(&manager, TextureManager::Get("box.jpg"), sf::Vector2f(0, 0), 0);
-	manager.Append(std::dynamic_pointer_cast<GameObject>(crate));
+	//std::shared_ptr<Crate> crate = std::make_shared<Crate>(&manager, TextureManager::Get("box.jpg"), sf::Vector2f(0, 0), 0);
+	//manager.Append(std::dynamic_pointer_cast<GameObject>(crate));
 
-	sf::View view;
+	sf::View view(player->GetPos(), sf::Vector2f(1000,1000));
 	window.setView(view);
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -80,9 +104,12 @@ int main()
 				//event.mouseWheel.delta
 			}
 		}
+		window.setView(view);
 		manager.UpdateAll();
+		//mySocket->SendAll();
 		window.clear();
 		view.setCenter(player->GetPos());
+		
 		//window.draw(shape);
 		manager.DrawAll();
 		window.display();

@@ -35,7 +35,7 @@ sf::Vector2f& GameObject::GetPos()
 	return position;
 }
 
-float& GameObject::GetRotation()
+float GameObject::GetRotation()
 {
 	return rotation;
 }
@@ -127,15 +127,15 @@ bool GameObject::IntersectsRight(GameObject::HitBox* rect) const
 	return false;
 }
 
-bool GameObject::operator==(const GameObject& lhs) const
-{
-	return *this == lhs;
-}
+//bool GameObject::operator==(const GameObject& lhs) const
+//{
+//	return *this == lhs;
+//}
 
-bool GameObject::operator!=(const GameObject& lhs) const
-{
-	return !(this->operator==(lhs));
-}
+//bool GameObject::operator!=(const GameObject& lhs) const
+//{
+//	return !(this->operator==(lhs));
+//}
 
 void GameObject::OnCollision(GameObject* object)
 {

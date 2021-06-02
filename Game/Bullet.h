@@ -16,5 +16,5 @@ private:
 	sf::Vector2f offset;
 
 	sf::Vector2f orignalPosition;
-	float maxDistance = 100;
+	float maxDistance = 10000;
 };

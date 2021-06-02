@@ -17,12 +17,13 @@ struct WeaponDetails
 	Bullet* bullet;
 }; 
 
-
 /* Weapon in myInventory */
 class Weapon 
 {
+	using Owner = Character;
 public:
-	Weapon(GameObjectManager* objectManager, Character* owner, WeaponDetails* details);
+	Weapon(GameObjectManager* objectManager, WeaponDetails* details);
+	Weapon(GameObjectManager* objectManager, Owner* owner,WeaponDetails* details);
 
 	virtual ~Weapon() { };
 
@@ -37,34 +38,27 @@ public:
 	void Draw(sf::RenderWindow* render) const;
 
 	WeaponDetails* GetWeaponDetails() const;
+
+	void SetOwner(Owner* owner);
 protected:
 	sf::Sprite sprite;
 	WeaponDetails* details;
 	GameObjectManager* objectManager;
-	Character* owner;
+	Owner* owner = nullptr;
 	Timer reloadTimer;
 	Timer shootTimer;
 	bool isReloading = false;
-	Bullet* bullet;
+	//Bullet* bullet = nullptr;
 	sf::Vector2f offset;
 };
-
 
 /* Weapon on ground able to be picked up */
 class WeaponObject : public GameObject
 {
 public:
-	//WeaponObject(GameObjectManager* gameObjects, const sf::Texture* texture, const sf::Vector2f& pos, float rotation,
-	//	WeaponDetails* details, const sf::Vector2f& scale = sf::Vector2f(1, 1)) :
-	//	GameObject(gameObjects, texture, pos, rotation, scale), details(details)
-	//{
-
-	//}
-
 	WeaponObject(GameObjectManager* gameObjectManager, WeaponDetails* details, Character* target);
 
 	WeaponDetails* GetDetails() const;
-
 protected:
 	WeaponDetails* details;
 };

@@ -17,15 +17,16 @@ Inventory* Character::GetInventory()
 	return myInventory;
 }
 
-bool Character::operator==(const GameObject& lhs) const
+bool Character::operator==(const Character& lhs) const
 {
-	return *this == dynamic_cast<const Character&>(lhs);
+	return *this == lhs;
 }
 
-bool Character::operator!=(const GameObject& lhs) const
+bool Character::operator!=(const Character& lhs) const
 {
 	return !this->operator==(lhs);
 }
+
 
 float Character::GetHealth() const
 {

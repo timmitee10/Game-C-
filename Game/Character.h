@@ -12,9 +12,9 @@ public:
 	Inventory* GetInventory();
 
 
-	bool operator==(const GameObject& lhs) const override;
+	bool operator==(const Character& lhs) const;
+	bool operator!=(const Character& lhs) const;
 
-	bool operator!=(const GameObject& lhs) const override;
 	
 	/*
 	using GameObject::Draw;

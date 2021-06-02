@@ -48,6 +48,27 @@ inline T Vector2Distance(const sf::Vector2<T>& from, const sf::Vector2<T>& to)
 	auto result = from - to;
 	return std::sqrt(result.x * result.x + result.y * result.y);
 }
+template<typename Base, typename Derived>
+struct PolymorphicComparable : public Base {
+
+	bool operator==(const Base& other) const {
+		// first check if the dynamic types match
+		if (typeid(other) != typeid(Derived))
+			return false;
+
+		// cast to the concrete types; thanks to the check above this is safe
+		const Derived& a = static_cast<const Derived&>(*this);
+		const Derived& b = static_cast<const Derived&>(other);
+
+		// redirect to Derived::operator==(Derived)
+		return a == b;
+	}
+};
+
+class BaseGameObject
+{
+	virtual bool operator==(const BaseGameObject& lhs) = 0;
+};
 
 class GameObject
 {
@@ -63,7 +84,7 @@ public:
 public:
 	void SetRelativePositionAndRotation(GameObject* target, sf::Vector2f offset);
 	sf::Vector2f& GetPos();
-	float& GetRotation();
+	float GetRotation();
 	sf::Vector2f GetOrigin() const;
 	sf::Vector2f GetScale() const;
 	sf::Color GetColor() const;
@@ -88,10 +109,6 @@ public:
 
 	bool IntersectsRight(GameObject::HitBox* rect) const;
 
-	virtual bool operator==(const GameObject& lhs) const;
-
-	virtual bool operator!=(const GameObject& lhs) const;
-
 	virtual void OnCollision(GameObject* object);
 
 	sf::Sprite CloneSprite() const;
@@ -105,7 +122,7 @@ protected:
 	sf::Vector2f scale;
 	sf::Color color;
 	/* Rotation in degrease */
-	float rotation;
+	float rotation = 0;
 	const sf::Texture* texture;
 	sf::Sprite sprite;
 	HitBox* hitBox = nullptr;

@@ -9,7 +9,7 @@ void GameObjectManager::DrawAll() const
 {
 	for (const auto& object : gameObjects)
 	{
-		
+
 		if (object.get() != nullptr)
 		{
 			object->Draw(renderer);
@@ -20,26 +20,32 @@ void GameObjectManager::DrawAll() const
 void GameObjectManager::UpdateAll()
 {
 	/* Update */
-	for (auto object = gameObjects.rbegin(); object != gameObjects.rend(); ++object)
+	//Iterator get invalid after inserting object into vector therefore forlook was used instead.
+	for (int  i = gameObjects.size() - 1; i >= 0; i--)
 	{
-		if (object->get() != nullptr)
+		auto& object = gameObjects.at(i);
+
+		if (object.get() != nullptr)
 		{
-			object->get()->Update(timer.ElapsedNanoseconds());
-			if (object->get()->IsRemoved())
-			{
-				gameObjects.erase(std::next(object).base());
-			}
+			object->Update(timer.ElapsedNanoseconds());
+
+			//if (object->IsRemoved())
+			//{
+			//	gameObjects.erase(gameObjects.begin() + i);
+			//	//gameObjects.erase(std::next(object).base());
+			//}
 		}
+
 	}
 	/* Remove */
-	for (auto object = gameObjects.rbegin(); object != gameObjects.rend(); ++object)
+	for (int i = gameObjects.size() - 1; i >= 0; i--)
 	{
-		if (object->get() != nullptr)
+		auto& object = gameObjects.at(i);
+		if (object.get() != nullptr)
 		{
-
-			if (object->get()->IsRemoved())
+			if (object->IsRemoved())
 			{
-				gameObjects.erase(std::next(object).base());
+				gameObjects.erase(gameObjects.begin() + i);
 			}
 		}
 	}

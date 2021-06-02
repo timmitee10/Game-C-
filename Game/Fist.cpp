@@ -10,24 +10,24 @@ Fist::Fist(const Character* owner, float damage, float velocity, GameObjectManag
 }
 void Fist::Update(float deltaTime)
 {
-	std::vector<std::shared_ptr<GameObject>>* temp = this->objectManager->GetVector();
-	for (auto& a : *temp)
-	{
-		if (this->Intersects(this->GetHitBox()) && owner->operator!=(*a))
-		{
-			auto* p = dynamic_cast<Character*>(a.get());
-			if (p)
-			{
-				const float tempNewHealth = p->GetHealth() - damage;
-				p->SetHealth(tempNewHealth);
-			}
-			this->isRemoved = true;
-		}
-	}
-	this->AddForce(this->rotation, this->velocity, deltaTime);
+	//std::vector<std::shared_ptr<GameObject>>* temp = this->objectManager->GetVector();
+	//for (auto& a : *temp)
+	//{
+	//	if (this->Intersects(this->GetHitBox()) && owner !=(*a))
+	//	{
+	//		auto* p = dynamic_cast<Character*>(a.get());
+	//		if (p)
+	//		{
+	//			const float tempNewHealth = p->GetHealth() - damage;
+	//			p->SetHealth(tempNewHealth);
+	//		}
+	//		this->isRemoved = true;
+	//	}
+	//}
+	//this->AddForce(this->rotation, this->velocity, deltaTime);
 
-	if (Vector2Distance<float>( this->orignalPosition , this->position) > maxDistance)
-	{
-		this->isRemoved = true;
-	}
+	//if (Vector2Distance<float>( this->orignalPosition , this->position) > maxDistance)
+	//{
+	//	this->isRemoved = true;
+	//}
 }

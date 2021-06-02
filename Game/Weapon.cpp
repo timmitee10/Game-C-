@@ -2,12 +2,17 @@
 #include "Character.h"
 #include "TextureManager.h"
 #include "Inventory.h"
-Weapon::Weapon(GameObjectManager* objectManager, Character* owner, WeaponDetails* details)
+Weapon::Weapon(GameObjectManager* objectManager, WeaponDetails* details) : details(details), objectManager(objectManager)
 {
 	this->sprite.setTexture(*details->equippedTexture, true);
-	this->sprite.setPosition(owner->GetPos());
-	this->sprite.setRotation(owner->GetRotation());
+	//this->sprite.setPosition(owner->GetPos());
+	//this->sprite.setRotation(owner->GetRotation());
 	this->sprite.setOrigin(0, 0);
+}
+
+Weapon::Weapon(GameObjectManager* objectManager, Owner* owner, WeaponDetails* details) : Weapon(objectManager, details)
+{
+	this->owner = owner;
 }
 
 void Weapon::Reload()
@@ -39,7 +44,9 @@ void Weapon::Shoot()
 	{
 		if (shootTimer.ElapsedMilliseconds() > details->fireDelay)
 		{
-			auto tempBullet = std::make_shared<Bullet>(owner, 10.f, 10.f, objectManager, TextureManager::Get("Bullet"),
+			float rotation = owner->GetRotation();
+			Bullet* bu = new Bullet(owner, 10.f, 10.f, objectManager, TextureManager::Get("stone.png"), owner->GetPos(), rotation);
+			auto tempBullet = std::make_shared<Bullet>(owner, 10.f, 10.f, objectManager, TextureManager::Get("stone.png"),
 				owner->GetPos(), owner->GetRotation());
 			tempBullet->SetPosition(owner->GetPos());
 			tempBullet->SetRotation(owner->GetRotation());
@@ -52,6 +59,8 @@ void Weapon::Shoot()
 
 void Weapon::Update()
 {
+	this->sprite.setPosition(owner->GetPos());
+	this->sprite.setRotation(owner->GetRotation());
 	if (isReloading)
 	{
 		if (reloadTimer.ElapsedMilliseconds() < details->reloadTime)
@@ -75,6 +84,8 @@ WeaponDetails* Weapon::GetWeaponDetails() const
 {
 	return details;
 }
+
+void Weapon::SetOwner(Owner* owner) { this->owner = owner; }
 
 WeaponObject::WeaponObject(GameObjectManager* gameObjectManager, WeaponDetails* details, Character* target) :
 	GameObject(gameObjectManager, details->objectTexture, target->GetPos(), target->GetRotation()), details(details)

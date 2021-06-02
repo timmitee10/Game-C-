@@ -5,8 +5,6 @@ Bullet::Bullet(const Character* owner, float damage, float velocity, GameObjectM
 	this->owner = owner;
 	this->damage = damage;
 	this->velocity = velocity;
-
-
 	this->orignalPosition = this->position;
 }
 void Bullet::Update(float deltaTime)
@@ -14,9 +12,13 @@ void Bullet::Update(float deltaTime)
 	std::vector<std::shared_ptr<GameObject>>* temp = this->objectManager->GetVector();
 	for (auto& a : *temp)
 	{
-		if (this->Intersects(this->GetHitBox()) && owner->operator!=(*a))
+		if (this->Intersects(this->GetHitBox()) && typeid(Character) == typeid(a))
 		{
-			auto* p = dynamic_cast<Character*>(a.get());
+			auto p = std::dynamic_pointer_cast<Character>(a);
+			if (p.get() != owner)
+			{
+
+			}
 			if (p)
 			{
 				const float tempNewHealth = p->GetHealth() - damage;
