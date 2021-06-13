@@ -15,6 +15,10 @@ void Bot::Update(float deltaTime)
 
 		this->isRemoved = true;
 	}
+
+
+
+
 }
 
 void Bot::Draw(sf::RenderWindow* const renderer) const

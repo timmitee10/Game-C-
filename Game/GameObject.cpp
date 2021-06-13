@@ -154,6 +154,7 @@ void GameObject::AddForce(sf::Vector2f direction, float velocity, float deltaTim
 
 void GameObject::AddForce(float rotation, float velocity, float deltaTime)
 {
+	this->position = this->sprite.getPosition();
 	this->position += calcDirection(rotation) * velocity * deltaTime * 0.0000001f;
 	this->sprite.setPosition(position);
 	//this->SetPosition(this->position);

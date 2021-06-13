@@ -4,27 +4,27 @@ namespace NodelNet
 {
 	void PacketManager::Clear()
 	{
-		packets = std::queue<std::shared_ptr<Packet>>{};//Clear out packet queue
+		packets = std::queue<std::shared_ptr<Packet>>{};
 	}
 
 	bool PacketManager::HasPendingPackets()
 	{
-		return (!packets.empty()); //returns true if packets are pending
+		return (!packets.empty()); 
 	}
 
 	void PacketManager::Append(std::shared_ptr<Packet> p)
 	{
-		packets.push(std::move(p)); //Add packet to queue
+		packets.push(std::move(p)); 
 	}
 
 	std::shared_ptr<Packet> PacketManager::Retrieve()
 	{
-		std::shared_ptr<Packet> p = packets.front(); //Get packet from front of queue
-		return p; //Return packet that was removed from the queue
+		std::shared_ptr<Packet> p = packets.front(); 
+		return p; 
 	}
 
 	void PacketManager::Pop()
 	{
-		packets.pop(); //Remove packet from front of queue
+		packets.pop();
 	}
 }

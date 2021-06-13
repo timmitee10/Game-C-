@@ -159,6 +159,4 @@ namespace NodelNet
 			};
 		}addr = { 0 };
 	};
-
-
 }

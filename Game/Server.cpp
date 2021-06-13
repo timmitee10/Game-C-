@@ -81,25 +81,25 @@ namespace NodelNet
 				int connectionIndex = i - 1;
 				Connection& connection = connections[connectionIndex];
 
-				if (use_fd[i].revents & POLLERR) //If error occurred on this socket
+				if (use_fd[i].revents & POLLERR) 
 				{
 					CloseConnection(connectionIndex, "POLLERR");
 					continue;
 				}
 
-				if (use_fd[i].revents & POLLHUP) //If poll hangup occurred on this socket
+				if (use_fd[i].revents & POLLHUP) 
 				{
 					CloseConnection(connectionIndex, "POLLHUP");
 					continue;
 				}
 
-				if (use_fd[i].revents & POLLNVAL) //If invalid socket
+				if (use_fd[i].revents & POLLNVAL)
 				{
 					CloseConnection(connectionIndex, "POLLNVAL");
 					continue;
 				}
 
-				if (use_fd[i].revents & POLLRDNORM) //If normal data can be read without blocking
+				if (use_fd[i].revents & POLLRDNORM) 
 				{
 					int bytesReceived = 0;
 
@@ -113,13 +113,13 @@ namespace NodelNet
 					}
 
 
-					if (bytesReceived == 0) //If connection was lost
+					if (bytesReceived == 0) 
 					{
 						CloseConnection(connectionIndex, "Recv==0");
 						continue;
 					}
 
-					if (bytesReceived == SOCKET_ERROR) //If error occurred on socket
+					if (bytesReceived == SOCKET_ERROR) 
 					{
 						int error = WSAGetLastError();
 						if (error != WSAEWOULDBLOCK)
@@ -146,7 +146,7 @@ namespace NodelNet
 								connection.pm_incoming.currentTask = PacketManagerTask::ProcessPacketContents;
 							}
 						}
-						else //Processing packet contents
+						else 
 						{
 							if (connection.pm_incoming.currentPacketExtractionOffset == connection.pm_incoming.currentPacketSize)
 							{
@@ -164,12 +164,12 @@ namespace NodelNet
 					}
 				}
 
-				if (use_fd[i].revents & POLLWRNORM) //If normal data can be written without blocking
+				if (use_fd[i].revents & POLLWRNORM) 
 				{
 					PacketManager& pm = connection.pm_outgoing;
 					while (pm.HasPendingPackets())
 					{
-						if (pm.currentTask == PacketManagerTask::ProcessPacketSize) //Sending packet size
+						if (pm.currentTask == PacketManagerTask::ProcessPacketSize)
 						{
 							pm.currentPacketSize = pm.Retrieve()->buffer.size();
 							uint16_t bigEndianPacketSize = htons(pm.currentPacketSize);
@@ -179,17 +179,17 @@ namespace NodelNet
 								pm.currentPacketExtractionOffset += bytesSent;
 							}
 
-							if (pm.currentPacketExtractionOffset == sizeof(uint16_t)) //If full packet size was sent
+							if (pm.currentPacketExtractionOffset == sizeof(uint16_t)) 
 							{
 								pm.currentPacketExtractionOffset = 0;
 								pm.currentTask = PacketManagerTask::ProcessPacketContents;
 							}
-							else //If full packet size was not sent, break out of the loop for sending outgoing packets for this connection - we'll have to try again next time we are able to write normal data without blocking
+							else
 							{
 								break;
 							}
 						}
-						else //Sending packet contents
+						else 
 						{
 							char* bufferPtr = &pm.Retrieve()->buffer[0];
 							int bytesSent = send(use_fd[i].fd, (char*)(bufferPtr)+pm.currentPacketExtractionOffset, pm.currentPacketSize - pm.currentPacketExtractionOffset, 0);
@@ -198,15 +198,15 @@ namespace NodelNet
 								pm.currentPacketExtractionOffset += bytesSent;
 							}
 
-							if (pm.currentPacketExtractionOffset == pm.currentPacketSize) //If full packet contents have been sent
+							if (pm.currentPacketExtractionOffset == pm.currentPacketSize) 
 							{
 								pm.currentPacketExtractionOffset = 0;
 								pm.currentTask = PacketManagerTask::ProcessPacketSize;
-								pm.Pop(); //Remove packet from queue after finished processing
+								pm.Pop(); 
 							}
 							else
 							{
-								break; //Added after tutorial was made 2019-06-24
+								break;
 							}
 						}
 					}

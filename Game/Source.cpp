@@ -63,7 +63,7 @@ int main()
 	//manager.Append<Player>(new Player(TextureManager::Get("bird.jpg"), sf::Vector2f(0, 0), 0, sf::Color::White, sf::Vector2f(0.2, 0.2)));
 	WeaponDetails details;
 	details.bullet = bullet;
-	details.fireDelay = 2.f;
+	details.fireDelay = 300.f;
 	details.magazineBulletCount = 30;
 	details.totalMagazineCapacity = 30;
 	details.equippedTexture = (sf::Texture*)TextureManager::Get("rifle2.png");
@@ -77,7 +77,7 @@ int main()
 	
 	//manager.Append(std::dynamic_pointer_cast<GameObject>(std::make_shared<Tree>(TextureManager::Get("player.png"), sf::Vector2f(0, 0), 0.f)));
 
-	//manager.Append(std::make_shared<GameObject>(TextureManager::Get("box.jpg"), sf::Vector2f(0, 0), 0.f));
+	//manager.Append(std::make_shared<GameObject>(TextureManager::Get("box.jpg"), sf::Vector2f(200, 0), 0.f));
 
 
 	//manager.Append(std::dynamic_pointer_cast<GameObject>(std::make_shared<Stone>(TextureManager::Get("stone.png"), sf::Vector2f(1900, 1121), 0.f)));

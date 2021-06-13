@@ -109,7 +109,6 @@ namespace NodelNet
 			WordArray8 words;
 			struct
 			{
-
 				union
 				{
 					struct

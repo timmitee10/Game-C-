@@ -31,7 +31,7 @@ public:
 
 	void FillWeapon() const;
 
-	virtual void Shoot();
+	void Shoot();
 
 	void Update();
 

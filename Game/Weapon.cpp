@@ -45,7 +45,8 @@ void Weapon::Shoot()
 		if (shootTimer.ElapsedMilliseconds() > details->fireDelay)
 		{
 			float rotation = owner->GetRotation();
-			Bullet* bu = new Bullet(owner, 10.f, 10.f, objectManager, TextureManager::Get("stone.png"), owner->GetPos(), rotation);
+			
+			Bullet* bu = new Bullet(owner, 10.f, 50.f, objectManager, TextureManager::Get("stone.png"), owner->GetPos(), rotation);
 			auto tempBullet = std::make_shared<Bullet>(owner, 10.f, 10.f, objectManager, TextureManager::Get("stone.png"),
 				owner->GetPos(), owner->GetRotation());
 			tempBullet->SetPosition(owner->GetPos());

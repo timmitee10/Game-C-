@@ -11,7 +11,7 @@ public:
 	void Update(float deltaTime) override;
 	void Draw(sf::RenderWindow* const renderer) const override;
 private:
-	float movementSpeed = 50.f;
+	float movementSpeed = 250.f;
 	sf::RenderWindow* window;
 	Weapon* weapon;
 };

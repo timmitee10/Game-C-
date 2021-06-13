@@ -32,12 +32,13 @@ void Player::Update(float deltaTime)
 	sf::Vector2f curPos = this->position;
 	auto a = sf::Mouse::getPosition();
 	auto w = window->getPosition();
-	auto center = sf::Vector2i(w.x + (window->getSize().x / 2), w.y + (window->getSize().y/2));
-	auto mouse = sf::Vector2f(center.x - a.x, center.y - a.y);
-	float dx = curPos.x - mouse.x;
-	float dy = curPos.y - mouse.y;
-	std::cout << mouse.x << ":" << mouse.y << std::endl; 
-	this->rotation = (atan2(dy, dx)) * 180 / PI + 90;
+	auto center = sf::Vector2i(w.x + (window->getSize().x / 2), w.y + (window->getSize().y / 2));
+
+	float dx = center.x - a.x;
+	float dy = center.y - a.y;
+	
+	std::cout << center.x << ":" << center.y << ":" << a.x << ":" << a.y << std::endl; 
+	this->rotation = (atan2(dy, dx)) * 180 / PI - 90;
 	sprite.setRotation(rotation);
 
 

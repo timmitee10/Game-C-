@@ -14,7 +14,6 @@ namespace NodelNet
 			throw std::exception("InvalidParserInput");
 	}
 
-
 	IPAddressV4::IPAddressV4(const sockaddr_in& addr)
 	{
 		assert(addr.sin_family == AF_INET);
