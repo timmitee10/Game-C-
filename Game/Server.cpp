@@ -1,6 +1,7 @@
 #include "Server.h"
 #include <iostream>
 
+#include "Player.h"
 namespace NodelNet
 {
 	bool Server::Initialize(IPEndPoint ip)
@@ -81,13 +82,13 @@ namespace NodelNet
 				int connectionIndex = i - 1;
 				Connection& connection = connections[connectionIndex];
 
-				if (use_fd[i].revents & POLLERR) 
+				if (use_fd[i].revents & POLLERR)
 				{
 					CloseConnection(connectionIndex, "POLLERR");
 					continue;
 				}
 
-				if (use_fd[i].revents & POLLHUP) 
+				if (use_fd[i].revents & POLLHUP)
 				{
 					CloseConnection(connectionIndex, "POLLHUP");
 					continue;
@@ -99,7 +100,7 @@ namespace NodelNet
 					continue;
 				}
 
-				if (use_fd[i].revents & POLLRDNORM) 
+				if (use_fd[i].revents & POLLRDNORM)
 				{
 					int bytesReceived = 0;
 
@@ -113,13 +114,13 @@ namespace NodelNet
 					}
 
 
-					if (bytesReceived == 0) 
+					if (bytesReceived == 0)
 					{
 						CloseConnection(connectionIndex, "Recv==0");
 						continue;
 					}
 
-					if (bytesReceived == SOCKET_ERROR) 
+					if (bytesReceived == SOCKET_ERROR)
 					{
 						int error = WSAGetLastError();
 						if (error != WSAEWOULDBLOCK)
@@ -146,7 +147,7 @@ namespace NodelNet
 								connection.pm_incoming.currentTask = PacketManagerTask::ProcessPacketContents;
 							}
 						}
-						else 
+						else
 						{
 							if (connection.pm_incoming.currentPacketExtractionOffset == connection.pm_incoming.currentPacketSize)
 							{
@@ -164,7 +165,7 @@ namespace NodelNet
 					}
 				}
 
-				if (use_fd[i].revents & POLLWRNORM) 
+				if (use_fd[i].revents & POLLWRNORM)
 				{
 					PacketManager& pm = connection.pm_outgoing;
 					while (pm.HasPendingPackets())
@@ -179,7 +180,7 @@ namespace NodelNet
 								pm.currentPacketExtractionOffset += bytesSent;
 							}
 
-							if (pm.currentPacketExtractionOffset == sizeof(uint16_t)) 
+							if (pm.currentPacketExtractionOffset == sizeof(uint16_t))
 							{
 								pm.currentPacketExtractionOffset = 0;
 								pm.currentTask = PacketManagerTask::ProcessPacketContents;
@@ -189,7 +190,7 @@ namespace NodelNet
 								break;
 							}
 						}
-						else 
+						else
 						{
 							char* bufferPtr = &pm.Retrieve()->buffer[0];
 							int bytesSent = send(use_fd[i].fd, (char*)(bufferPtr)+pm.currentPacketExtractionOffset, pm.currentPacketSize - pm.currentPacketExtractionOffset, 0);
@@ -198,11 +199,11 @@ namespace NodelNet
 								pm.currentPacketExtractionOffset += bytesSent;
 							}
 
-							if (pm.currentPacketExtractionOffset == pm.currentPacketSize) 
+							if (pm.currentPacketExtractionOffset == pm.currentPacketSize)
 							{
 								pm.currentPacketExtractionOffset = 0;
 								pm.currentTask = PacketManagerTask::ProcessPacketSize;
-								pm.Pop(); 
+								pm.Pop();
 							}
 							else
 							{
@@ -237,7 +238,8 @@ namespace NodelNet
 
 	void Server::OnConnect(Connection& newConnection)
 	{
-		std::cout << newConnection.GetIPEndPoint() << " - New connection accepted." << std::endl;
+		std::cout << newConnection.GetIPEndPoint() << " - New connection accepted (" << clientCount << ")." << std::endl;
+		clientCount++;
 	}
 
 	void Server::OnDisconnect(Connection& lostConnection, std::string reason)
@@ -258,6 +260,14 @@ namespace NodelNet
 	bool Server::ProcessPacket(std::shared_ptr<Packet> packet)
 	{
 		std::cout << "Packet received with size: " << packet->buffer.size() << std::endl;
+		auto packetType = packet->GetPacketType();
+		std::cout << "Packet type" << (int)packetType << std::endl;
+		if (packetType == PacketType::PT_Move)
+		{
+			auto player = (Player*)packet->buffer[0];
+			std::cout << player->GetPos().x << player->GetPos().y << std::endl;
+		}
+
 		return true;
 	}
 }
