@@ -1,6 +1,7 @@
 #pragma once
 #include "Connection.h"
 #include "Packet.h"
+
 namespace NodelNet
 {
 	class Server

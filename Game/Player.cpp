@@ -1,6 +1,6 @@
 #include "Player.h"
 #include <iostream>
-
+#include "Weapon.h"
 Player::Player(float health, float velocity, GameObjectManager* gameObjects, const sf::Texture* texture,
 	const sf::Vector2f& pos, float rotation, sf::RenderWindow* window, Weapon* weapon, const sf::Vector2f& scale) : Character(
 		health, velocity, gameObjects, texture, pos, rotation, scale), window(window), weapon(weapon)

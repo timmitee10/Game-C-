@@ -7,9 +7,8 @@
 #include "SocketIOModels.h"
 #include <cassert>
 #include "SocketException.h"
-//#include "PacketProcessing/Packet.h"
 
-#include <FlatBuffers/flatbuffers.h>
+#include <Flatbuffers\flatbuffers.h>
 
 //#include "FlatBuffersSchema/ConnectionRequest_generated.h"
 namespace NodelNet
@@ -22,13 +21,10 @@ namespace NodelNet
 	{
 	public:
 		Socket(SocketHandle& socketHandle, IPVersion ipVer) : sock(socketHandle), ipVersion(ipVer) {}
-		Socket(IPVersion ipVersion = IPVersion::IPv4) noexcept : ipVersion(ipVersion), sock(INVALID_SOCKET)
-		{
-			assert(ipVersion == IPVersion::IPv4 || ipVersion == IPVersion::IPv6);
-		};
+		Socket(IPVersion ipVersion = IPVersion::IPv4) noexcept;
 		NETResult Create(const Protocol socketProtocol, SocketType socketType = SocketType::Unknown);
 		~Socket() noexcept;
-		Socket& operator=(const Socket& lhs) { *this = lhs; return *this; };
+		Socket& operator=(const Socket& lhs);
 	public:
 		NETResult Bind(const IPEndPoint& ipEndPoint);
 		NETResult Connect(const IPEndPoint& ipEndPoint);
@@ -59,7 +55,7 @@ namespace NodelNet
 		SocketHandle sock;
 		IPVersion ipVersion;
 		SocketIOModels socketIOModel = SocketIOModels::Unknown;
-		const Protocol protocol = Protocol::Unknown;
+		Protocol protocol = Protocol::Unknown;
 		BOOL isIPv6Only = FALSE;
 	};
 }

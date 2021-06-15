@@ -1,13 +1,12 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "GameObjectManager.h"
-#include "Player.h"
-#include "Stone.h"
+//#include "GameObjectManager.h"
 #include "TextureManager.h"
-#include "Tree.h"
-#include "Crate.h"
-#include "Socket.h"
-#include "Server.h"
+#include "Weapon.h"
+#include "Player.h"
+
+//#include "Server.h"
+
 inline float RandomRotation()
 {
 	return (std::rand() % 360 + 1);
@@ -29,20 +28,21 @@ inline void SpawnObject(GameObjectManager* manager, Player* player, std::shared_
 			continue;
 	}
 }
-#define SERVER 1
-#define CLIENT 1
+//#define SERVER 1
+//#define CLIENT 1
 static std::vector<WeaponDetails> avalibleWeapons;
 static Bullet* bullet;
 static std::shared_ptr<Player> player;
 static Weapon* basicWeapon;
 std::vector<uint8_t> buffer;
-static NodelNet::Socket* mySocket;
+
+//static NodelNet::Socket* mySocket;
 int main()
 {
 	srand(time(0));
 	mapBounderes = new sf::Rect<float>(0, 0, 10000, 10000);
 
-	using namespace NodelNet;
+	//using namespace NodelNet;
 	//IPEndPoint ipEnd(IPAddressV4::Loopback());
 	//mySocket = new Socket(IPVersion::IPv4);
 	//mySocket->Connect(ipEnd);

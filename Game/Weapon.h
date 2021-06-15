@@ -1,8 +1,8 @@
 #pragma once
-#include "Bullet.h"
 #include "GameObjectManager.h"
 #include "Timer.h"
 
+class Bullet;
 class Character;
 struct WeaponDetails
 {

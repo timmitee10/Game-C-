@@ -1,6 +1,5 @@
 #pragma once
 #include "Socket.h"
-#include "IPEndPoint.h"
 #include "PacketManager.h"
 namespace NodelNet
 {

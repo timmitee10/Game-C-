@@ -7,6 +7,21 @@ namespace NodelNet
 			std::terminate();
 	}
 
+	Socket& Socket::operator=(const Socket& lhs)
+	{
+		this->ipVersion = lhs.ipVersion;
+		this->isIPv6Only = lhs.isIPv6Only;
+		this->protocol = lhs.protocol;
+		this->sock = lhs.sock;
+		this->socketIOModel = lhs.socketIOModel;
+		return *this;
+	}
+
+	Socket::Socket(IPVersion ipVersion) noexcept : ipVersion(ipVersion), sock(INVALID_SOCKET)
+	{
+		assert(ipVersion == IPVersion::IPv4 || ipVersion == IPVersion::IPv6);
+	}
+
 	NETResult Socket::Create(const Protocol socketProtocol, SocketType socketType)
 	{
 		assert(ipVersion == IPVersion::IPv4 || ipVersion == IPVersion::IPv6);

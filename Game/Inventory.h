@@ -2,8 +2,6 @@
 #include <cassert>
 #include <vector>
 
-#include "Weapon.h"
-#include "Bullet.h"
 #include <optional>
 
 #include "Character.h"

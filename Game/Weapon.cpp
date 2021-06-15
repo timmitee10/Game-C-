@@ -1,3 +1,4 @@
+#include "Bullet.h"
 #include "Weapon.h"
 #include "Character.h"
 #include "TextureManager.h"
