@@ -1,4 +1,5 @@
 #pragma once
+#define NOMINMAX
 #include "IPEndPoint.h"
 #include "NETResult.h"
 #include "SocketType.h"
@@ -7,10 +8,6 @@
 #include "SocketIOModels.h"
 #include <cassert>
 #include "SocketException.h"
-
-#include <Flatbuffers\flatbuffers.h>
-
-//#include "FlatBuffersSchema/ConnectionRequest_generated.h"
 namespace NodelNet
 {
 	/*

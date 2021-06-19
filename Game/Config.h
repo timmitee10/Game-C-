@@ -1,4 +1,5 @@
 #pragma once
+#define NOMINMAX 
 #pragma comment(lib, "Ws2_32.lib")
 #include <cstdint>
 

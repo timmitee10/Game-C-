@@ -5,7 +5,7 @@
 #include "Weapon.h"
 #include "Player.h"
 
-//#include "Server.h"
+#include "Server.h"
 
 inline float RandomRotation()
 {
@@ -29,7 +29,7 @@ inline void SpawnObject(GameObjectManager* manager, Player* player, std::shared_
 	}
 }
 //#define SERVER 1
-//#define CLIENT 1
+#define CLIENT 1
 static std::vector<WeaponDetails> avalibleWeapons;
 static Bullet* bullet;
 static std::shared_ptr<Player> player;
@@ -39,10 +39,16 @@ std::vector<uint8_t> buffer;
 //static NodelNet::Socket* mySocket;
 int main()
 {
+	WORD version = 2;
+	WSADATA wsaData;
+
+	if (WSAStartup(version, &wsaData) != 0)
+		exit(0);
+
 	srand(time(0));
 	mapBounderes = new sf::Rect<float>(0, 0, 10000, 10000);
 
-	//using namespace NodelNet;
+	using namespace NodelNet;
 	//IPEndPoint ipEnd(IPAddressV4::Loopback());
 	//mySocket = new Socket(IPVersion::IPv4);
 	//mySocket->Connect(ipEnd);
@@ -57,6 +63,7 @@ int main()
 	//sf::CircleShape shape(1000.f);
 	//shape.setFillColor(sf::Color::Green);
 	GameObjectManager manager(&window);
+
 	if (!TextureManager::Load("bird.jpg")) throw std::exception("Faild to load file");
 	if (!TextureManager::Load("pistol2.png")) throw std::exception("Faild to load file");
 	if (!TextureManager::Load("player.png")) throw std::exception("Faild to load file");
@@ -86,6 +93,7 @@ int main()
 #endif
 #ifdef CLIENT
 	Socket client;
+	client.Create(Protocol::TCP);
 	client.Connect(IPEndPoint(IPAddressV4::Loopback(), 29942));
 #endif
 	//manager.Append(std::make_shared<GameObject>(TextureManager::Get("box.jpg"), sf::Vector2f(200, 0), 0.f));
@@ -127,13 +135,13 @@ int main()
 		Packet packet(PacketType::PT_Move);
 		packet.Append(player.get(), sizeof(Player));
 		client.SendAll(packet.buffer.data(), packet.buffer.size());
-
-		client.ReceiveAll(buffer.data(), buffer.size());
+		int bytesRec = buffer.size();
+		client.Receive(buffer.data(),1000,bytesRec);
 #endif
 
 #ifdef SERVER
 		server.Frame();
-#endif 
+#endif
 		//mySocket->SendAll();
 #ifdef CLIENT
 		window.clear();

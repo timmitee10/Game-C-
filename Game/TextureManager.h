@@ -19,7 +19,7 @@ public:
 		return true;
 	}
 
-	inline 	static const sf::Texture* Get(const std::string& name)
+	inline static const sf::Texture* Get(const std::string& name)
 	{
 		return textureMap.at(name);
 	}

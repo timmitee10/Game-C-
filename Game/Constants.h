@@ -9,7 +9,7 @@ namespace NodelNet
 	/* Contains all constant values that can be changed to accomodate application*/
 	struct Constants
 	{
-		static constexpr uint64_t max_packet_size = 10;
+		static constexpr uint64_t max_packet_size = 10000000000;
 		static constexpr uint64_t default_ip_endpoint_port = 10;
 		static constexpr uint64_t max_connection_timeout = 10;
 		static constexpr uint64_t max_sessions_connections = 10;

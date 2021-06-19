@@ -10,7 +10,7 @@ namespace NodelNet
 		connections.clear();
 
 		listeningSocket = Socket(ip.GetVersion());
-		if (listeningSocket.Create(Protocol::UDP) == NETResult::Success)
+		if (listeningSocket.Create(Protocol::TCP) == NETResult::Success)
 		{
 			std::cout << "Socket successfully created." << std::endl;
 			listeningSocket.Bind(ip);
@@ -267,7 +267,6 @@ namespace NodelNet
 			auto player = (Player*)packet->buffer[0];
 			std::cout << player->GetPos().x << player->GetPos().y << std::endl;
 		}
-
 		return true;
 	}
 }

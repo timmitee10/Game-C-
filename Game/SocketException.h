@@ -1,9 +1,8 @@
 #pragma once
 #include <exception>
 #include <string>
-#include "SocketAPI.h"
 #include <WinBase.h>
-
+#include <winsock2.h>
 namespace NodelNet
 {
 #define NODEL_NET_EXCEPTION 1

@@ -1,4 +1,5 @@
 #include "Socket.h"
+
 namespace NodelNet
 {
 	Socket::~Socket()
