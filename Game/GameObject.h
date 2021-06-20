@@ -115,6 +115,8 @@ public:
 
 	void AddForce(sf::Vector2f direction, float velocity, float deltaTime);
 	void AddForce(float rotation, float velocity, float deltaTime);
+
+	uint64_t GetId() const;
 protected:
 	sf::Vector2f position;
 	sf::Vector2f direction = sf::Vector2f(0, 0);
@@ -128,4 +130,6 @@ protected:
 	HitBox* hitBox = nullptr;
 	GameObjectManager* objectManager;
 	bool isRemoved = false;
+
+	uint64_t uid;
 };

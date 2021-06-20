@@ -57,3 +57,8 @@ void Player::Draw(sf::RenderWindow* const renderer) const
 {
 	renderer->draw(this->sprite);
 }
+
+void Player::SetUniqueId(unsigned int value)
+{
+	this->uid = value;
+}

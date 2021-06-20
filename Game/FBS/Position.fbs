@@ -1,0 +1,37 @@
+struct Vector3 {
+  x:float;
+  y:float;
+  z:float;
+}
+
+struct Vector2 {
+  x:float;
+  y:float;
+}
+
+enum objectTypes : uint8
+{
+	Player,
+	Bullet,
+}
+
+table createObject
+{
+	uid:uint64;
+	type:objectTypes;
+	position:Vector2;
+	rotation:float;
+}
+
+table moveObject
+{
+	uid:uint64;
+	position:Vector2;
+	rotation:float;
+}
+
+table removeObject
+{
+	uid:uint64;
+}
+

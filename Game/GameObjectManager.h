@@ -16,6 +16,8 @@ public:
 
 	void Remove(GameObject* ptr);
 	void Append(std::shared_ptr<GameObject> obj);
+
+	std::shared_ptr<GameObject> GetObjectById(uint64_t objectId);
 	GameObjectContainer* GetVector();
 private:
 	sf::RenderWindow* renderer;

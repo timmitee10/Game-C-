@@ -59,6 +59,16 @@ void GameObjectManager::Append(std::shared_ptr<GameObject> obj)
 	gameObjects.push_back(obj);
 }
 
+std::shared_ptr<GameObject> GameObjectManager::GetObjectById(uint64_t objectId)
+{
+	for (auto& a : gameObjects)
+	{
+		if (a->GetId() == objectId)
+			return a;
+	}
+	throw std::exception("Could not find object");
+}
+
 GameObjectManager::GameObjectContainer* GameObjectManager::GetVector()
 {
 	return &gameObjects;

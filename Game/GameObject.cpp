@@ -159,3 +159,8 @@ void GameObject::AddForce(float rotation, float velocity, float deltaTime)
 	this->sprite.setPosition(position);
 	//this->SetPosition(this->position);
 }
+
+uint64_t GameObject::GetId() const
+{
+	return this->uid;
+}

@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "Player.h"
+#include "GameObjectManager.h"
 namespace NodelNet
 {
 	bool Server::Initialize(IPEndPoint ip)
@@ -267,6 +268,45 @@ namespace NodelNet
 			auto player = (Player*)packet->buffer[0];
 			std::cout << player->GetPos().x << player->GetPos().y << std::endl;
 		}
+		if (packetType == PacketType::PT_Create)
+		{
+			auto player = (Player*)packet->buffer[0];
+			gameobjects->Append(std::make_shared<Player>(player));
+		}
 		return true;
 	}
+	bool Server::ProcessMove(moveObject move)
+	{
+		move.Verify(verifier);
+
+		auto obj = gameobjects->GetObjectById(move.uid());
+		obj->SetRotation(move.rotation());
+		if (obj->GetPos().x == move.position()->x())
+		{
+			if (obj->GetPos().y == move.position()->y())
+			{
+				obj->SetPosition(sf::Vector2f(move.position()->x(), move.position()->y()));
+			}
+		}
+		return false;
+	}
+
+	bool Server::ProcessCreateObject(createObject value)
+	{
+		value.Verify(verifier);
+		value.position();
+		value.rotation();
+		value.type();
+		value.uid();
+		return false;
+	}
+
+	bool Server::ProcessDeleteObject(removeObject value)
+	{
+		if (!value.Verify(verifier))
+			return false;
+		gameobjects->Remove(gameobjects->GetObjectById(value.uid()).get());
+		return true;
+	}
+
 }

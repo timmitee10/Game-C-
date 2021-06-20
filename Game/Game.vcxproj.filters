@@ -212,5 +212,8 @@
     <ClInclude Include="PacketType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OnlinePlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
