@@ -10,14 +10,23 @@ struct Vector3;
 
 struct Vector2;
 
-struct createObject;
-struct createObjectBuilder;
+struct CreatePlayer;
+struct CreatePlayerBuilder;
 
-struct moveObject;
-struct moveObjectBuilder;
+struct CreateBullet;
+struct CreateBulletBuilder;
 
-struct removeObject;
-struct removeObjectBuilder;
+struct UpdateHealth;
+struct UpdateHealthBuilder;
+
+struct MoveObject;
+struct MoveObjectBuilder;
+
+struct RequestObjectRemoval;
+struct RequestObjectRemovalBuilder;
+
+struct RemoveObject;
+struct RemoveObjectBuilder;
 
 enum objectTypes : uint8_t {
   objectTypes_Player = 0,
@@ -101,19 +110,16 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vector2 FLATBUFFERS_FINAL_CLASS {
 };
 FLATBUFFERS_STRUCT_END(Vector2, 8);
 
-struct createObject FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef createObjectBuilder Builder;
+struct CreatePlayer FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef CreatePlayerBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_UID = 4,
-    VT_TYPE = 6,
-    VT_POSITION = 8,
-    VT_ROTATION = 10
+    VT_POSITION = 6,
+    VT_ROTATION = 8,
+    VT_VELOCITY = 10
   };
   uint64_t uid() const {
     return GetField<uint64_t>(VT_UID, 0);
-  }
-  objectTypes type() const {
-    return static_cast<objectTypes>(GetField<uint8_t>(VT_TYPE, 0));
   }
   const Vector2 *position() const {
     return GetStruct<const Vector2 *>(VT_POSITION);
@@ -121,59 +127,194 @@ struct createObject FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   float rotation() const {
     return GetField<float>(VT_ROTATION, 0.0f);
   }
+  float velocity() const {
+    return GetField<float>(VT_VELOCITY, 0.0f);
+  }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint64_t>(verifier, VT_UID) &&
-           VerifyField<uint8_t>(verifier, VT_TYPE) &&
            VerifyField<Vector2>(verifier, VT_POSITION) &&
            VerifyField<float>(verifier, VT_ROTATION) &&
+           VerifyField<float>(verifier, VT_VELOCITY) &&
            verifier.EndTable();
   }
 };
 
-struct createObjectBuilder {
-  typedef createObject Table;
+struct CreatePlayerBuilder {
+  typedef CreatePlayer Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
   void add_uid(uint64_t uid) {
-    fbb_.AddElement<uint64_t>(createObject::VT_UID, uid, 0);
-  }
-  void add_type(objectTypes type) {
-    fbb_.AddElement<uint8_t>(createObject::VT_TYPE, static_cast<uint8_t>(type), 0);
+    fbb_.AddElement<uint64_t>(CreatePlayer::VT_UID, uid, 0);
   }
   void add_position(const Vector2 *position) {
-    fbb_.AddStruct(createObject::VT_POSITION, position);
+    fbb_.AddStruct(CreatePlayer::VT_POSITION, position);
   }
   void add_rotation(float rotation) {
-    fbb_.AddElement<float>(createObject::VT_ROTATION, rotation, 0.0f);
+    fbb_.AddElement<float>(CreatePlayer::VT_ROTATION, rotation, 0.0f);
   }
-  explicit createObjectBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+  void add_velocity(float velocity) {
+    fbb_.AddElement<float>(CreatePlayer::VT_VELOCITY, velocity, 0.0f);
+  }
+  explicit CreatePlayerBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  flatbuffers::Offset<createObject> Finish() {
+  flatbuffers::Offset<CreatePlayer> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = flatbuffers::Offset<createObject>(end);
+    auto o = flatbuffers::Offset<CreatePlayer>(end);
     return o;
   }
 };
 
-inline flatbuffers::Offset<createObject> CreatecreateObject(
+inline flatbuffers::Offset<CreatePlayer> CreateCreatePlayer(
     flatbuffers::FlatBufferBuilder &_fbb,
     uint64_t uid = 0,
-    objectTypes type = objectTypes_Player,
     const Vector2 *position = 0,
-    float rotation = 0.0f) {
-  createObjectBuilder builder_(_fbb);
+    float rotation = 0.0f,
+    float velocity = 0.0f) {
+  CreatePlayerBuilder builder_(_fbb);
   builder_.add_uid(uid);
+  builder_.add_velocity(velocity);
   builder_.add_rotation(rotation);
   builder_.add_position(position);
-  builder_.add_type(type);
   return builder_.Finish();
 }
 
-struct moveObject FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef moveObjectBuilder Builder;
+struct CreateBullet FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef CreateBulletBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UID = 4,
+    VT_POSITIOM = 6,
+    VT_ROTATION = 8,
+    VT_VELOCITY = 10,
+    VT_TIMESTAMP = 12
+  };
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  const Vector2 *positiom() const {
+    return GetStruct<const Vector2 *>(VT_POSITIOM);
+  }
+  float rotation() const {
+    return GetField<float>(VT_ROTATION, 0.0f);
+  }
+  float velocity() const {
+    return GetField<float>(VT_VELOCITY, 0.0f);
+  }
+  float timestamp() const {
+    return GetField<float>(VT_TIMESTAMP, 0.0f);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_UID) &&
+           VerifyField<Vector2>(verifier, VT_POSITIOM) &&
+           VerifyField<float>(verifier, VT_ROTATION) &&
+           VerifyField<float>(verifier, VT_VELOCITY) &&
+           VerifyField<float>(verifier, VT_TIMESTAMP) &&
+           verifier.EndTable();
+  }
+};
+
+struct CreateBulletBuilder {
+  typedef CreateBullet Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(CreateBullet::VT_UID, uid, 0);
+  }
+  void add_positiom(const Vector2 *positiom) {
+    fbb_.AddStruct(CreateBullet::VT_POSITIOM, positiom);
+  }
+  void add_rotation(float rotation) {
+    fbb_.AddElement<float>(CreateBullet::VT_ROTATION, rotation, 0.0f);
+  }
+  void add_velocity(float velocity) {
+    fbb_.AddElement<float>(CreateBullet::VT_VELOCITY, velocity, 0.0f);
+  }
+  void add_timestamp(float timestamp) {
+    fbb_.AddElement<float>(CreateBullet::VT_TIMESTAMP, timestamp, 0.0f);
+  }
+  explicit CreateBulletBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<CreateBullet> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<CreateBullet>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<CreateBullet> CreateCreateBullet(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t uid = 0,
+    const Vector2 *positiom = 0,
+    float rotation = 0.0f,
+    float velocity = 0.0f,
+    float timestamp = 0.0f) {
+  CreateBulletBuilder builder_(_fbb);
+  builder_.add_uid(uid);
+  builder_.add_timestamp(timestamp);
+  builder_.add_velocity(velocity);
+  builder_.add_rotation(rotation);
+  builder_.add_positiom(positiom);
+  return builder_.Finish();
+}
+
+struct UpdateHealth FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef UpdateHealthBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UID = 4,
+    VT_HEALTH = 6
+  };
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  float health() const {
+    return GetField<float>(VT_HEALTH, 0.0f);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_UID) &&
+           VerifyField<float>(verifier, VT_HEALTH) &&
+           verifier.EndTable();
+  }
+};
+
+struct UpdateHealthBuilder {
+  typedef UpdateHealth Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(UpdateHealth::VT_UID, uid, 0);
+  }
+  void add_health(float health) {
+    fbb_.AddElement<float>(UpdateHealth::VT_HEALTH, health, 0.0f);
+  }
+  explicit UpdateHealthBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<UpdateHealth> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<UpdateHealth>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<UpdateHealth> CreateUpdateHealth(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t uid = 0,
+    float health = 0.0f) {
+  UpdateHealthBuilder builder_(_fbb);
+  builder_.add_uid(uid);
+  builder_.add_health(health);
+  return builder_.Finish();
+}
+
+struct MoveObject FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef MoveObjectBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_UID = 4,
     VT_POSITION = 6,
@@ -197,44 +338,44 @@ struct moveObject FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   }
 };
 
-struct moveObjectBuilder {
-  typedef moveObject Table;
+struct MoveObjectBuilder {
+  typedef MoveObject Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
   void add_uid(uint64_t uid) {
-    fbb_.AddElement<uint64_t>(moveObject::VT_UID, uid, 0);
+    fbb_.AddElement<uint64_t>(MoveObject::VT_UID, uid, 0);
   }
   void add_position(const Vector2 *position) {
-    fbb_.AddStruct(moveObject::VT_POSITION, position);
+    fbb_.AddStruct(MoveObject::VT_POSITION, position);
   }
   void add_rotation(float rotation) {
-    fbb_.AddElement<float>(moveObject::VT_ROTATION, rotation, 0.0f);
+    fbb_.AddElement<float>(MoveObject::VT_ROTATION, rotation, 0.0f);
   }
-  explicit moveObjectBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+  explicit MoveObjectBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  flatbuffers::Offset<moveObject> Finish() {
+  flatbuffers::Offset<MoveObject> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = flatbuffers::Offset<moveObject>(end);
+    auto o = flatbuffers::Offset<MoveObject>(end);
     return o;
   }
 };
 
-inline flatbuffers::Offset<moveObject> CreatemoveObject(
+inline flatbuffers::Offset<MoveObject> CreateMoveObject(
     flatbuffers::FlatBufferBuilder &_fbb,
     uint64_t uid = 0,
     const Vector2 *position = 0,
     float rotation = 0.0f) {
-  moveObjectBuilder builder_(_fbb);
+  MoveObjectBuilder builder_(_fbb);
   builder_.add_uid(uid);
   builder_.add_rotation(rotation);
   builder_.add_position(position);
   return builder_.Finish();
 }
 
-struct removeObject FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef removeObjectBuilder Builder;
+struct RequestObjectRemoval FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef RequestObjectRemovalBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_UID = 4
   };
@@ -248,28 +389,69 @@ struct removeObject FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   }
 };
 
-struct removeObjectBuilder {
-  typedef removeObject Table;
+struct RequestObjectRemovalBuilder {
+  typedef RequestObjectRemoval Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
   void add_uid(uint64_t uid) {
-    fbb_.AddElement<uint64_t>(removeObject::VT_UID, uid, 0);
+    fbb_.AddElement<uint64_t>(RequestObjectRemoval::VT_UID, uid, 0);
   }
-  explicit removeObjectBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+  explicit RequestObjectRemovalBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  flatbuffers::Offset<removeObject> Finish() {
+  flatbuffers::Offset<RequestObjectRemoval> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = flatbuffers::Offset<removeObject>(end);
+    auto o = flatbuffers::Offset<RequestObjectRemoval>(end);
     return o;
   }
 };
 
-inline flatbuffers::Offset<removeObject> CreateremoveObject(
+inline flatbuffers::Offset<RequestObjectRemoval> CreateRequestObjectRemoval(
     flatbuffers::FlatBufferBuilder &_fbb,
     uint64_t uid = 0) {
-  removeObjectBuilder builder_(_fbb);
+  RequestObjectRemovalBuilder builder_(_fbb);
+  builder_.add_uid(uid);
+  return builder_.Finish();
+}
+
+struct RemoveObject FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef RemoveObjectBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_UID = 4
+  };
+  uint64_t uid() const {
+    return GetField<uint64_t>(VT_UID, 0);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint64_t>(verifier, VT_UID) &&
+           verifier.EndTable();
+  }
+};
+
+struct RemoveObjectBuilder {
+  typedef RemoveObject Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_uid(uint64_t uid) {
+    fbb_.AddElement<uint64_t>(RemoveObject::VT_UID, uid, 0);
+  }
+  explicit RemoveObjectBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  flatbuffers::Offset<RemoveObject> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<RemoveObject>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<RemoveObject> CreateRemoveObject(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    uint64_t uid = 0) {
+  RemoveObjectBuilder builder_(_fbb);
   builder_.add_uid(uid);
   return builder_.Finish();
 }

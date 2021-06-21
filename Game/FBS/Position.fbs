@@ -15,23 +15,44 @@ enum objectTypes : uint8
 	Bullet,
 }
 
-table createObject
-{
-	uid:uint64;
-	type:objectTypes;
-	position:Vector2;
-	rotation:float;
-}
 
-table moveObject
+table CreatePlayer
 {
 	uid:uint64;
 	position:Vector2;
 	rotation:float;
+	velocity:float;
+	timestamp:float;
 }
 
-table removeObject
+table CreateBullet
+{
+	uid:uint64;
+	positiom:Vector2;
+	rotation:float;
+	velocity:float;
+	timestamp:float;
+}
+
+table UpdateHealth
+{
+	uid:uint64;
+	health:float;
+}
+
+table MoveObject
+{
+	uid:uint64;
+	position:Vector2;
+	rotation:float;
+}
+
+table RequestObjectRemoval
 {
 	uid:uint64;
 }
 
+table RemoveObject
+{
+	uid:uint64;
+}

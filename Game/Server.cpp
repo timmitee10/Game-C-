@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "GameObjectManager.h"
+#include "Bullet.h"
 namespace NodelNet
 {
 	bool Server::Initialize(IPEndPoint ip)
@@ -263,22 +264,27 @@ namespace NodelNet
 		std::cout << "Packet received with size: " << packet->buffer.size() << std::endl;
 		auto packetType = packet->GetPacketType();
 		std::cout << "Packet type" << (int)packetType << std::endl;
-		if (packetType == PacketType::PT_Move)
+
+		switch (packetType)
 		{
-			auto player = (Player*)packet->buffer[0];
+		case PacketType::PT_CreatePlayer:
 			std::cout << player->GetPos().x << player->GetPos().y << std::endl;
-		}
-		if (packetType == PacketType::PT_Create)
-		{
-			auto player = (Player*)packet->buffer[0];
-			gameobjects->Append(std::make_shared<Player>(player));
+			auto tempCreateObject = GetCreateObject(packet->buffer.data());
+			break;
+		case PacketType::PT_CreateBullet:
+			auto tempCreateBullet = GetCreateBullet(packet->buffer.data());
+			
+			break;
+		case PacketType::PT_Move:
+			auto tempMoveObject = GetMoveObject(packet->buffer.data());
+
+			break;
 		}
 		return true;
 	}
 	bool Server::ProcessMove(moveObject move)
 	{
 		move.Verify(verifier);
-
 		auto obj = gameobjects->GetObjectById(move.uid());
 		obj->SetRotation(move.rotation());
 		if (obj->GetPos().x == move.position()->x())
@@ -294,10 +300,20 @@ namespace NodelNet
 	bool Server::ProcessCreateObject(createObject value)
 	{
 		value.Verify(verifier);
-		value.position();
-		value.rotation();
-		value.type();
-		value.uid();
+		switch (value.type())
+		{
+		case objectTypes::objectTypes_Bullet:
+			std::make_shared<Bullet>(gameobjects,texture,,,);
+			value.position();
+			value.rotation();
+			value.uid();
+			break;
+		case objectTypes::objectTypes_Player:
+			gameobjects->Append(
+				std::make_shared<Player>(Player(100, 2, gameobjects, ))
+			);
+			break;
+		}
 		return false;
 	}
 

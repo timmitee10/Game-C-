@@ -69,6 +69,12 @@ class BaseGameObject
 {
 	virtual bool operator==(const BaseGameObject& lhs) = 0;
 };
+enum class ObjectOwner
+{
+	User,
+	OtherUser, 
+	Server,
+};
 
 class GameObject
 {
@@ -117,6 +123,9 @@ public:
 	void AddForce(float rotation, float velocity, float deltaTime);
 
 	uint64_t GetId() const;
+
+	void SetOwner(ObjectOwner owner);
+	ObjectOwner GetOwner() const;
 protected:
 	sf::Vector2f position;
 	sf::Vector2f direction = sf::Vector2f(0, 0);
@@ -130,6 +139,6 @@ protected:
 	HitBox* hitBox = nullptr;
 	GameObjectManager* objectManager;
 	bool isRemoved = false;
-
+	ObjectOwner owner; 
 	uint64_t uid;
 };

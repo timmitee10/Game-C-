@@ -4,8 +4,9 @@ namespace NodelNet
 	enum PacketType : uint16_t
 	{
 		PT_Invalid,
-		PT_Create,
+
+		PT_CreatePlayer,
 		PT_Move,
-		PT_Shoot,
+		PT_CreateBullet,
 	};
 }

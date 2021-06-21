@@ -28,7 +28,7 @@ namespace NodelNet
 		std::vector<WSAPOLLFD> master_fd;
 		std::vector<WSAPOLLFD> use_fd;
 		flatbuffers::Verifier verifier;
-
+		flatbuffers::FlatBufferBuilder fbb;
 		GameObjectManager* gameobjects;
 	};
 }

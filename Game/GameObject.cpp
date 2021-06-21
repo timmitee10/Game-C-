@@ -164,3 +164,13 @@ uint64_t GameObject::GetId() const
 {
 	return this->uid;
 }
+
+void GameObject::SetOwner(ObjectOwner owner)
+{
+	this.owner = owner;
+}
+
+ObjectOwner GameObject::GetOwner() const
+{
+	return this.owner;
+}

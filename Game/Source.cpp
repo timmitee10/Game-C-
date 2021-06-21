@@ -109,11 +109,19 @@ int main()
 
 	sf::View view(player->GetPos(), sf::Vector2f(1000, 1000));
 	window.setView(view);
+	flatbuffers::FlatBufferBuilder fbb;
 
 #ifdef CLIENT
-	Packet packet(PacketType::PT_Create);
-	packet.Append(player.get(), sizeof(Player));
-	client.SendAll(packet.buffer.data(), packet.buffer.size());
+	Packet packet(PacketType::PT_CreatePlayer);
+	CreatePlayerBuilder cpb(fbb);
+
+	cpb.add_position(Vector2(player->GetPos().x, player->GetPos().y));
+	cpb.add_rotation(player->GetRotation());
+	cpb.add_uid(player->GetId());
+	cpb.add_velocity(player->GetVelocity())
+	auto res = cpb.Finish();
+	fbb.Finish(res);
+	packet.Append(fbb.GetBufferPointer(), fbb.GetSize());
 #endif 
 	while (window.isOpen())
 	{
@@ -133,10 +141,24 @@ int main()
 
 #ifdef CLIENT
 		Packet packet(PacketType::PT_Move);
-		packet.Append(player.get(), sizeof(Player));
+
+		MoveObjectBuilder mob(fbb);
+		mob.add_position(player->GetPos().x, player->GetPos().y);
+		mob.add_rotation(player->GetRotation());
+		mob.add_uid(player->GetId());
+		auto mobRes = mob.Finish();
+		fbb.Finish(mobRes);
+
+		packet.Append(fbb.GetBufferPointer(), fbb.GetSize());
+
 		client.SendAll(packet.buffer.data(), packet.buffer.size());
+		
 		int bytesRec = buffer.size();
-		client.Receive(buffer.data(),1000,bytesRec);
+		
+		client.Receive(buffer.data(), 1000, bytesRec);
+
+
+
 #endif
 
 #ifdef SERVER
