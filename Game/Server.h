@@ -18,9 +18,10 @@ namespace NodelNet
 		virtual void OnDisconnect(Connection& lostConnection, std::string reason);
 		void CloseConnection(int connectionIndex, std::string reason);
 		virtual bool ProcessPacket(std::shared_ptr<Packet> packet);
-		virtual bool ProcessMove(moveObject move);
-		virtual bool ProcessCreateObject(createObject value);
-		virtual bool ProcessDeleteObject(removeObject value);
+		virtual bool ProcessMove(MoveObject obj);
+		virtual bool ProcessCreateObject(CreatePlayer obj);
+		virtual bool ProcessCreateObject(CreateBullet obj);
+		virtual bool ProcessDeleteObject(RemoveObject value);
 		
 		unsigned int clientCount = 0;
 		Socket listeningSocket;

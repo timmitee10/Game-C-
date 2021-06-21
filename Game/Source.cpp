@@ -118,7 +118,7 @@ int main()
 	cpb.add_position(Vector2(player->GetPos().x, player->GetPos().y));
 	cpb.add_rotation(player->GetRotation());
 	cpb.add_uid(player->GetId());
-	cpb.add_velocity(player->GetVelocity())
+	cpb.add_velocity(0);
 	auto res = cpb.Finish();
 	fbb.Finish(res);
 	packet.Append(fbb.GetBufferPointer(), fbb.GetSize());
@@ -156,9 +156,6 @@ int main()
 		int bytesRec = buffer.size();
 		
 		client.Receive(buffer.data(), 1000, bytesRec);
-
-
-
 #endif
 
 #ifdef SERVER

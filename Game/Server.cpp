@@ -282,47 +282,38 @@ namespace NodelNet
 		}
 		return true;
 	}
-	bool Server::ProcessMove(moveObject move)
+	bool Server::ProcessMove(MoveObject obj)
 	{
-		move.Verify(verifier);
-		auto obj = gameobjects->GetObjectById(move.uid());
-		obj->SetRotation(move.rotation());
-		if (obj->GetPos().x == move.position()->x())
+		obj.Verify(verifier);
+		auto cur = gameobjects->GetObjectById(obj.uid());
+		cur->SetRotation(obj.rotation);
+		if (cur->GetPos().x == obj.position()->x())
 		{
-			if (obj->GetPos().y == move.position()->y())
+			if (cur->GetPos().y == obj.position()->y())
 			{
-				obj->SetPosition(sf::Vector2f(move.position()->x(), move.position()->y()));
+				cur->SetPosition(sf::Vector2f(obj.position()->x(), obj.position()->y()));
 			}
 		}
-		return false;
-	}
 
-	bool Server::ProcessCreateObject(createObject value)
+		return true;
+	}
+	bool Server::ProcessCreateObject(CreatePlayer obj)
 	{
-		value.Verify(verifier);
-		switch (value.type())
-		{
-		case objectTypes::objectTypes_Bullet:
-			std::make_shared<Bullet>(gameobjects,texture,,,);
-			value.position();
-			value.rotation();
-			value.uid();
-			break;
-		case objectTypes::objectTypes_Player:
-			gameobjects->Append(
-				std::make_shared<Player>(Player(100, 2, gameobjects, ))
-			);
-			break;
-		}
-		return false;
+		
+		gameobjects->Append(std::make_shared<Player>(, , , , ));
+		
+		return true;
 	}
+	bool Server::ProcessCreateObject(CreateBullet obj)
+	{
 
-	bool Server::ProcessDeleteObject(removeObject value)
+		return true;
+	}
+	bool Server::ProcessDeleteObject(RemoveObject value)
 	{
 		if (!value.Verify(verifier))
 			return false;
 		gameobjects->Remove(gameobjects->GetObjectById(value.uid()).get());
 		return true;
 	}
-
 }
